@@ -2,20 +2,20 @@ var moment = require('alloy/moment');
 
 exports.definition = {
 	config: {
-		'columns': {
-			'item':'text',
-			'done':'integer',
-			'date_completed':'text'
+		columns: {
+			item: 'text',
+			done: 'integer',
+			date_completed: 'text'
 		},
-		'adapter': {
-			'type': 'sql',
-			'collection_name': 'todo'
+		adapter: {
+			type: 'sql',
+			collection_name: 'todo'
 		}
 	},
 
-	extendModel : function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
-			validate : function(attrs) {
+			validate: function (attrs) {
 				for (var key in attrs) {
 					var value = attrs[key];
 					if (value) {
@@ -37,7 +37,7 @@ exports.definition = {
 		return Model;
 	},
 
-	extendCollection : function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

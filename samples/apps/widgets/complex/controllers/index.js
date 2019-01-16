@@ -1,7 +1,7 @@
 $.sfb.setHandlers({
-	success: function(books) {
+	success: function (books) {
 		var data = [];
-		_.each(books, function(book) {
+		_.each(books, function (book) {
 			var row = Alloy.createController('row', {
 				title: book.title,
 				authors: book.authors,

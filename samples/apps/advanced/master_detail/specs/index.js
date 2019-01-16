@@ -1,13 +1,13 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	if (!OS_IOS && !OS_ANDROID) {
 		return;
 	}
 
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		if (OS_IOS && Alloy.isHandheld) {
 
 			validateUiComponent($, 'index', {
@@ -27,12 +27,12 @@ module.exports = function($) {
 				}
 			});
 
-			it('has an instance of "detail" controller', function() {
+			it('has an instance of "detail" controller', function () {
 				expect($.detail).toBeController();
 			});
 		}
 
-		it('has an instance of "master" controller', function() {
+		it('has an instance of "master" controller', function () {
 			expect($.master).toBeController();
 		});
 	});

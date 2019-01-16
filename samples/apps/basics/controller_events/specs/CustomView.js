@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('CustomView controller', function() {
+	describe('CustomView controller', function () {
 		validateUiComponent($, 'CustomView', {
 			api: 'Ti.UI.View',
 			style: {

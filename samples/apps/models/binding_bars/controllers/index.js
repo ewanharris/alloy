@@ -1,5 +1,5 @@
 function filterItems(collection) {
-	return collection.where({enabled:true});
+	return collection.where({ enabled: true });
 }
 
 if (OS_IOS) {

@@ -37,14 +37,14 @@ views.reset([
 	}
 ]);
 
-Alloy.Globals.setupWindow = function(win) {
+Alloy.Globals.setupWindow = function (win) {
 	Alloy.Globals.currentWindow = win;
 	if (OS_ANDROID) {
 		win.addEventListener('android:back', Alloy.Globals.closeWindow);
 	}
 };
 
-Alloy.Globals.closeWindow = function() {
+Alloy.Globals.closeWindow = function () {
 	if (Alloy.Globals.currentWindow) {
 		if (OS_ANDROID) {
 			Alloy.Globals.currentWindow.removeEventListener(
@@ -55,7 +55,7 @@ Alloy.Globals.closeWindow = function() {
 	}
 };
 
-Alloy.Globals.print = function(o, title) {
+Alloy.Globals.print = function (o, title) {
 	if (title) {
 		Ti.API.info('******** ' + title + ' ********');
 	}

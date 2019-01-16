@@ -64,13 +64,13 @@ var icons = [
 	}
 ];
 
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	for (var i = 0; i < icons.length; i++) {
 		migrator.insertRow(icons[i]);
 	}
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	for (var i = 0; i < icons.length; i++) {
 		migrator.deleteRow(icons[i]);
 	}

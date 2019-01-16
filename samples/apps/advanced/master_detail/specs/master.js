@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('master controller', function() {
+	describe('master controller', function () {
 		validateUiComponent($, 'master', {
 			api: 'Ti.UI.Window',
 			style: {

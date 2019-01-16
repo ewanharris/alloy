@@ -1,7 +1,7 @@
 var _ = require('lodash'),
 	U = require('../Alloy/utils');
 
-module.exports = function(def) {
+module.exports = function (def) {
 	if (!def.platform) {
 		U.die([
 			'platform undefined',
@@ -31,15 +31,15 @@ function runtimeCondition(osname, name) {
 	if (!osname && !name) {
 		return 'true';
 	} else if (_.isString(name)) {
-		return "Ti.Platform.name === '" + name + "'";
+		return 'Ti.Platform.name === \'' + name + '\'';
 	} else if (_.isString(osname)) {
-		return "Ti.Platform.osname === '" + osname + "'";
+		return 'Ti.Platform.osname === \'' + osname + '\'';
 	} else {
 		if (_.isArray(name)) {
-			map = _.map(name, function(n) { return "Ti.Platform.name === '" + n + "'"; });
+			map = _.map(name, function (n) { return 'Ti.Platform.name === \'' + n + '\''; });
 		}
 		if (_.isArray(osname) && (!map || osname.length < name.length)) {
-			map = _.map(osname, function(n) { return "Ti.Platform.osname === '" + n + "'"; });
+			map = _.map(osname, function (n) { return 'Ti.Platform.osname === \'' + n + '\''; });
 		}
 		if (!map) { return 'true'; }
 	}

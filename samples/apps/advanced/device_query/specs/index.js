@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		var bgColor = '#000';
 		if (OS_ANDROID) {
 			bgColor = '#0f0';
@@ -25,7 +25,7 @@ module.exports = function($) {
 		});
 	});
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		var text = 'Generic';
 		var color = '#fff';
 

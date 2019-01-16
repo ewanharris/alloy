@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -14,7 +14,7 @@ module.exports = function($) {
 		});
 	});
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'top', {
 			api: 'Ti.UI.View',
 			style: {

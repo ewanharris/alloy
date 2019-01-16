@@ -10,7 +10,7 @@ function showColorInfo(e) {
 		// query: 'SELECT * FROM colors WHERE color = "' + color + '"'
 		query: {
 			statement: 'SELECT * FROM colors WHERE color = ?',
-			params: [color]
+			params: [ color ]
 		}
 	});
 	var colorModel = collection.at(0);

@@ -30,10 +30,10 @@ function validateTabTable($, title, opts) {
 	}
 }
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.TabGroup',
 			style: {
@@ -68,13 +68,13 @@ module.exports = function($) {
 			}
 		});
 
-		it('#staticWidgetSection is a widget', function() {
+		it('#staticWidgetSection is a widget', function () {
 			expect($.staticWidgetSection).toBeWidget();
 		});
 
 		for (i = 1; i <= 3; i++) {
 			id = 'staticWidgetRow' + i;
-			it('#' + id + ' is a widget', function() {
+			it('#' + id + ' is a widget', function () {
 				expect($[id]).toBeWidget();
 			});
 		}

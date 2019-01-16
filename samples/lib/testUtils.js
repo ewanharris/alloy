@@ -27,7 +27,7 @@ function resetTestApp(callback) {
 	fs.removeSync(paths.harness);
 	fs.mkdirpSync(paths.harness);
 	fs.copySync(paths.harnessTemplate, paths.harness);
-	exec('alloy new "' + paths.harness + '"', function(error, stdout, stderr) {
+	exec('alloy new "' + paths.harness + '"', function (error, stdout, stderr) {
 		if (error) {
 			console.error('Failed to create new alloy project at ' + paths.harness);
 			process.exit();
@@ -66,22 +66,22 @@ function getExecObject(args) {
 //	 * reset: If truthy, recreate the default test harness before executing
 //
 // Return: none
-exports.asyncExecTest = function(cmd, opts) {
+exports.asyncExecTest = function (cmd, opts) {
 	opts = opts || {};
 
-	runs(function() {
+	runs(function () {
 		var self = this;
 		self.done = false;
 
-		var asyncFunc = function() {
-			exec(cmd, function() {
+		var asyncFunc = function () {
+			exec(cmd, function () {
 				self.done = true;
 				self.output = getExecObject(arguments);
 			});
 		};
 
 		if (opts.reset) {
-			resetTestApp(function() {
+			resetTestApp(function () {
 				asyncFunc();
 			});
 		} else {
@@ -89,10 +89,10 @@ exports.asyncExecTest = function(cmd, opts) {
 		}
 	});
 	waitsFor(
-		function() { return this.done; },
+		function () { return this.done; },
 		'exec("' + cmd + '") timed out', opts.timeout || exports.TIMEOUT_DEFAULT
 	);
-	runs(opts.test || function() {
+	runs(opts.test || function () {
 		expect(this.output.error).toBeNull();
 	});
 };
@@ -105,7 +105,7 @@ function toBeTssFile(expected) {
 
 	try {
 		var die = U.die;
-		U.die = function(msg, e) {
+		U.die = function (msg, e) {
 			U.die = die;
 			throw U.createErrorOutput(msg, e);
 		};
@@ -139,34 +139,34 @@ function toBeJavascriptFile(expected) {
 
 	try {
 		var js = fs.readFileSync(this.actual, 'utf8');
-		return toBeJavascript.call({actual:js}, expected);
+		return toBeJavascript.call({ actual: js }, expected);
 	} catch (e) {
 		return false;
 	}
 }
 
-exports.addMatchers = function() {
-	beforeEach(function() {
+exports.addMatchers = function () {
+	beforeEach(function () {
 		this.addMatchers({
 			toBeJavascript: toBeJavascript,
 			toBeJavascriptFile: toBeJavascriptFile,
 			toBeTssFile: toBeTssFile,
-			toHaveNoUndefinedStyles: function() {
-				return !_.find(this.actual, function(o) {
+			toHaveNoUndefinedStyles: function () {
+				return !_.find(this.actual, function (o) {
 					return o.key === 'undefined' && o.isApi;
 				});
 			},
-			toHaveSameContentAs: function(expected) {
-				return U.normalizeReturns(fs.readFileSync(this.actual, 'utf8')) ===
-					U.normalizeReturns(fs.readFileSync(expected, 'utf8'));
+			toHaveSameContentAs: function (expected) {
+				return U.normalizeReturns(fs.readFileSync(this.actual, 'utf8'))
+					=== U.normalizeReturns(fs.readFileSync(expected, 'utf8'));
 			},
-			toExist: function(expected) {
+			toExist: function (expected) {
 				return path.existsSync(this.actual);
 			},
-			toBeArray: function(expected) {
+			toBeArray: function (expected) {
 				return _.isArray(this.actual);
 			},
-			toBeObject: function(expected) {
+			toBeObject: function (expected) {
 				return _.isObject(this.actual);
 			}
 		});

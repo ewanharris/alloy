@@ -1,13 +1,13 @@
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	migrator.createTable({
-		'columns': {
-			'title':'text',
-			'image':'text',
-			'timestamp':'text'
+		columns: {
+			title: 'text',
+			image: 'text',
+			timestamp: 'text'
 		}
 	});
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	migrator.dropTable('myModel');
 };

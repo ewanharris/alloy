@@ -1,3 +1,3 @@
-exports.sayHello = function() {
+exports.sayHello = function () {
 	alert('Hello!');
 };

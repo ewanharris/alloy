@@ -3,7 +3,7 @@ exports.baseController = 'baseDialog';
 
 // Override baseDialog's openDialog() function. We will still
 // be able to use baseDialog's closeDialog() function.
-exports.openDialog = function(win) {
+exports.openDialog = function (win) {
 	$.refWin = win;
 
 	// make invisible

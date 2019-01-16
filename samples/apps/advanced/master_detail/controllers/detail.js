@@ -1,4 +1,4 @@
-exports.setBoxerStats = function(name) {
+exports.setBoxerStats = function (name) {
 	var stats = Alloy.Globals.data[name];
 	if (OS_ANDROID) {
 		$.name.text = 'Name: ' + name;
@@ -9,7 +9,6 @@ exports.setBoxerStats = function(name) {
 	$.height.text = 'Height: ' + stats.height;
 	$.weight.text = 'Weight: ' + stats.weight;
 	$.record.text = 'Record: ' + stats.record;
-
 
 	// runtime unit tests
 	if (!ENV_PROD) {

@@ -2,7 +2,7 @@ if (OS_IOS && Alloy.isHandheld) {
 	Alloy.Globals.navgroup = $.index;
 }
 
-$.master.on('detail', function(e) {
+$.master.on('detail', function (e) {
 	// get the detail controller and window references
 	var controller = OS_IOS && Alloy.isTablet ? $.detail : Alloy.createController('detail');
 	var win = controller.getView();

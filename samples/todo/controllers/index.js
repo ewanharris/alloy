@@ -1,8 +1,8 @@
 var todos = Alloy.Collections.todo;
 var INDEXES = {
-	'All': 0,
-	'Active': 1,
-	'Done': 2
+	All: 0,
+	Active: 1,
+	Done: 2
 };
 var whereIndex = INDEXES['All'];
 
@@ -16,9 +16,9 @@ todos && todos.fetch();
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
-	return !whereIndex ?
-		collection.models :
-		collection.where({ done: whereIndex === 1 ? 0 : 1 });
+	return !whereIndex
+		? collection.models
+		: collection.where({ done: whereIndex === 1 ? 0 : 1 });
 }
 
 // Perform transformations on each model as it is processed. Since

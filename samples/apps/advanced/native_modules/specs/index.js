@@ -1,11 +1,11 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	if (!OS_ANDROID && !OS_IOS) { return; }
 
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {

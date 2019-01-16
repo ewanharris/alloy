@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -29,7 +29,7 @@ module.exports = function($) {
 			}
 		});
 
-		it('#label can change text property', function() {
+		it('#label can change text property', function () {
 			var newtext = 'TEST TEXT';
 			$.label.text = newtext;
 			expect($.label.text).toEqual(newtext);

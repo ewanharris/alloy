@@ -23,7 +23,7 @@ function addEntry() {
 	Alloy.createController('add').getView().open();
 }
 
-Alloy.Collections.journal.comparator = function(entry1, entry2) {
+Alloy.Collections.journal.comparator = function (entry1, entry2) {
 	return entry1.get('dateCreated') > entry2.get('dateCreated') ? -1 : 1;
 };
 Alloy.Collections.journal.fetch();

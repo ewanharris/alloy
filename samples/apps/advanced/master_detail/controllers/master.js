@@ -3,7 +3,7 @@ function openDetail(e) {
 }
 
 var data = [];
-_.each(Alloy.Globals.data, function(stats, name) {
+_.each(Alloy.Globals.data, function (stats, name) {
 	data.push(Alloy.createController('row', {
 		name: name,
 		nickname: stats.nickname

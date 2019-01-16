@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($, opts) {
+module.exports = function ($, opts) {
 	addMatchers();
 
-	describe('row controller', function() {
+	describe('row controller', function () {
 		validateUiComponent($, 'row', {
 			api: 'Ti.UI.TableViewRow',
 			style: {
@@ -45,7 +45,7 @@ module.exports = function($, opts) {
 			}
 		});
 
-		it('properly adds name and nickname to UI', function() {
+		it('properly adds name and nickname to UI', function () {
 			expect($.name.text).toEqual(opts.name);
 			expect($.nickname.text).toEqual(opts.nickname);
 		});

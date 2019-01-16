@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -26,7 +26,7 @@ module.exports = function($) {
 				width: Ti.UI.SIZE,
 				height: Ti.UI.SIZE,
 				color: '#fff',
-				text: Alloy.isTablet ? "I'm a tablet!" : "I'm a handheld!",
+				text: Alloy.isTablet ? 'I\'m a tablet!' : 'I\'m a handheld!',
 				id: 'label'
 			}
 		});

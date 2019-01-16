@@ -12,14 +12,14 @@ exports.definition = {
 			collection_name: 'icons'
 		}
 	},
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
 			// Extend, override or implement Backbone.Model
 		});
 
 		return Model;
 	},
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method
@@ -32,7 +32,7 @@ exports.definition = {
 			*/
 
 			// Implement the comparator method.
-			comparator : function(icon) {
+			comparator: function (icon) {
 				return icon.get('weight');
 			}
 

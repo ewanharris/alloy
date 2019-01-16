@@ -1,13 +1,13 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($, opts) {
+module.exports = function ($, opts) {
 	opts = opts || {};
 	var isAnimated = (opts.message || '').indexOf('animated') !== -1;
 	jasmine.currentEnv_ = null;
 
 	addMatchers();
 
-	describe('baseDialog controller', function() {
+	describe('baseDialog controller', function () {
 		validateUiComponent($, 'cover', {
 			api: 'Ti.UI.View',
 			style: {

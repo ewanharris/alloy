@@ -1,6 +1,6 @@
 var _ = require('alloy/underscore')._;
 
-exports.createView = function(args) {
+exports.createView = function (args) {
 	args = args || {};
 	var specialStyle = _.extend({
 		backgroundColor: '#111',
@@ -13,7 +13,7 @@ exports.createView = function(args) {
 	return Ti.UI.createView(specialStyle);
 };
 
-exports.createMassiveGreenView = function(args) {
+exports.createMassiveGreenView = function (args) {
 	args = args || {};
 	var specialStyle = _.extend({
 		backgroundColor: '#0f0',

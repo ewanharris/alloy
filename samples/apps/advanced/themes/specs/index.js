@@ -1,6 +1,6 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
 	var styler = {};
@@ -117,7 +117,7 @@ module.exports = function($) {
 	// DRY out the unit testing code.
 	$.__styler = styler;
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {

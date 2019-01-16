@@ -28,7 +28,7 @@ function getMood(moodComponent) {
 function addEntry() {
 	// create a new model instance based on user input
 	var entry = Alloy.createModel('journal', {
-		title : $.title.value,
+		title: $.title.value,
 		text: $.text.value,
 		mood: getMood($.mood),
 		dateCreated: moment().format('YYYYMMDDHHmmss')
@@ -37,7 +37,7 @@ function addEntry() {
 	// Add new model to the collection, use silent=true
 	// so that a "change" event is not fired and the
 	// UI is re-rendered.
-	journal.add(entry, {silent:true});
+	journal.add(entry, { silent: true });
 
 	// Save the entry to persistence, which will re-render
 	// the UI based on the binding.

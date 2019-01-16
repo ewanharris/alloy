@@ -1,4 +1,4 @@
-var colors = ['blue', 'red', 'orange'];
+var colors = [ 'blue', 'red', 'orange' ];
 var selectedColor = 'blue';
 
 function closeKeyboard(e) {
@@ -7,7 +7,7 @@ function closeKeyboard(e) {
 
 function setColor(e) {
 	selectedColor = e.source.id;
-	_.each(colors, function(color) {
+	_.each(colors, function (color) {
 		$[color].borderWidth = e.source.id === color ? 4 : 0;
 	});
 }

@@ -1,6 +1,6 @@
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	migrator.createTable({
-		'columns': {
+		columns: {
 			image: 'TEXT',
 			selectedImage: 'TEXT',
 			badge: 'INTEGER',
@@ -10,6 +10,6 @@ migration.up = function(migrator) {
 	});
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	migrator.dropTable('icons');
 };

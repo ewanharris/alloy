@@ -2,9 +2,9 @@ var items = Alloy.createCollection('collectionTab'),
 	rowControllers = [];
 
 // update the row and save the model when the score changes
-items.on('change:score', function(model) {
+items.on('change:score', function (model) {
 	if (model) {
-		var row = _.find(rowControllers, function(r) {
+		var row = _.find(rowControllers, function (r) {
 			return r.id === model.id;
 		});
 		if (row) {
@@ -17,21 +17,21 @@ items.on('change:score', function(model) {
 // reset the table whenever a model is added or destroyed
 // completely. Also reset whenever the collection is reset.
 // Save the model changes if necessary.
-items.on('fetch', function(model) {
+items.on('fetch', function (model) {
 	resetTableData();
 });
 
 // fetch collection from Ti.App.Properties adapter
 items.fetch();
 
-//////////////////////////////////////
-////////// private function //////////
-//////////////////////////////////////
+// ////////////////////////////////////
+// //////// private function //////////
+// ////////////////////////////////////
 function resetTableData() {
 	rowControllers = [];
 
 	// create row controllers based on all models in the collection
-	_.each(items.toJSON(), function(i) {
+	_.each(items.toJSON(), function (i) {
 		rowControllers.push(Alloy.createController('collection/row', {
 			id: i.id,
 			name: i.name,
@@ -41,15 +41,15 @@ function resetTableData() {
 
 	// fill table with the controllers' TableViewRow, and sort
 	// by the row's ID
-	var theArray = _.sortBy(rowControllers, function(r) {
+	var theArray = _.sortBy(rowControllers, function (r) {
 		return r.getView('name').text;
 	});
-	$.table.setData(_.map(theArray, function(r) {return r.getView();}));
+	$.table.setData(_.map(theArray, function (r) { return r.getView(); }));
 }
 
-////////////////////////////////////
-////////// event handlers //////////
-////////////////////////////////////
+// //////////////////////////////////
+// //////// event handlers //////////
+// //////////////////////////////////
 function deleteItem(e) {
 	var model = items.get(e.row.id);
 	if (model) {

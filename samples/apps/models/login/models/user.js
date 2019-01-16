@@ -6,25 +6,25 @@ var USERNAME = 'user',
 
 exports.definition = {
 	config: {
-		'columns': {
-			'username':'text primary key',
-			'realname':'text',
-			'email':'text',
-			'loggedIn':'integer',
-			'loggedInSince':'text',
-			'authKey':'text',
-			'theme':'integer'
+		columns: {
+			username: 'text primary key',
+			realname: 'text',
+			email: 'text',
+			loggedIn: 'integer',
+			loggedInSince: 'text',
+			authKey: 'text',
+			theme: 'integer'
 		},
-		'adapter': {
-			'type': 'sql',
-			'collection_name': 'user',
-			'idAttribute': 'username'
+		adapter: {
+			type: 'sql',
+			collection_name: 'user',
+			idAttribute: 'username'
 		}
 	},
 
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
-			login: function(username, password) {
+			login: function (username, password) {
 				// Dummy authentication. In a real world scenario, this is
 				// where you'd make a request to your authentication server or
 				// other form of authentication. It would also likely return
@@ -42,7 +42,7 @@ exports.definition = {
 					return false;
 				}
 			},
-			logout: function() {
+			logout: function () {
 				this.set({
 					loggedIn: 0,
 					loggedInSince: '',
@@ -50,7 +50,7 @@ exports.definition = {
 				});
 				this.save();
 			},
-			validateAuth: function() {
+			validateAuth: function () {
 				// Again, this would be done against an auth server in a real world
 				// scenario. We're just keeping it simple here.
 				if (this.get('loggedIn') === 1 && this.get('authKey') === AUTHKEY) {
@@ -59,7 +59,7 @@ exports.definition = {
 					return false;
 				}
 			},
-			transform: function() {
+			transform: function () {
 				var t = this.toJSON();
 				t.themeBGColor = t.theme === 2 ? '#00f' : t.theme === 1 ? '#ff0' : '#963';
 				t.themeImage = t.theme === 2 ? '/jeans.png' : t.theme === 1 ? '/banana.jpg' : '/family.jpg';
@@ -69,7 +69,7 @@ exports.definition = {
 
 		return Model;
 	},
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

@@ -1,11 +1,11 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
-	//jasmine.currentEnv_ = null;
+module.exports = function ($) {
+	// jasmine.currentEnv_ = null;
 
 	addMatchers();
 
-	describe('proxy controller', function() {
+	describe('proxy controller', function () {
 		if (OS_IOS) {
 			validateUiComponent($, 'pullView', {
 				api: 'Ti.UI.View',
@@ -40,7 +40,7 @@ module.exports = function($) {
 		validateUiComponent($, 'headerText', {
 			api: 'Ti.UI.Label',
 			style: {
-				text: "I'm an ugly headerView",
+				text: 'I\'m an ugly headerView',
 				id: 'headerText'
 			}
 		});
@@ -57,7 +57,7 @@ module.exports = function($) {
 		validateUiComponent($, 'footerText', {
 			api: 'Ti.UI.Label',
 			style: {
-				text: "I'm an equally ugly footerView",
+				text: 'I\'m an equally ugly footerView',
 				id: 'footerText'
 			}
 		});

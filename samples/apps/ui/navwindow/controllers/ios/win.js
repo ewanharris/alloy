@@ -4,4 +4,4 @@ function closeWindow(e) {
 }
 
 $.win.title = 'Window #' + Alloy.Globals.ctr;
-$.windowNumber.text = "I'm window #" + Alloy.Globals.ctr + ' on the stack';
+$.windowNumber.text = 'I\'m window #' + Alloy.Globals.ctr + ' on the stack';

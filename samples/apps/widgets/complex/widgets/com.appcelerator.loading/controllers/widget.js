@@ -9,6 +9,6 @@ if (Ti.Platform.osname === 'mobileweb') {
 }
 $.loading.start();
 
-exports.setOpacity = function(opacity) {
+exports.setOpacity = function (opacity) {
 	$.loading.opacity = opacity;
 };

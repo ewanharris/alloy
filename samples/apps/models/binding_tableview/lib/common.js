@@ -1,10 +1,10 @@
 var Alloy = require('alloy');
 
-exports.addItem = function(collection) {
+exports.addItem = function (collection) {
 	// random title and image
 	var random = Math.ceil(Math.random() * 12);
 	var model = Alloy.createModel('MyModel', {
-		title : 'title ' + random,
+		title: 'title ' + random,
 		image: '/' + random + '.png',
 		timestamp: new Date().getTime()
 	});
@@ -19,7 +19,7 @@ exports.addItem = function(collection) {
 	collection.fetch();
 };
 
-exports.removeItem = function(collection, index) {
+exports.removeItem = function (collection, index) {
 	var model = collection.at(index);
 
 	// remove the model from the collection
@@ -32,7 +32,7 @@ exports.removeItem = function(collection, index) {
 	collection.fetch();
 };
 
-exports.prepNavBar = function(window, callback) {
+exports.prepNavBar = function (window, callback) {
 	var button = Ti.UI.createButton({
 		title: 'add item'
 	});
@@ -40,6 +40,6 @@ exports.prepNavBar = function(window, callback) {
 	window.rightNavButton = button;
 };
 
-exports.comparator = function(model) {
+exports.comparator = function (model) {
 	return model.get('timestamp');
 };

@@ -1,4 +1,4 @@
-$.dtable.on('rowClick', function(e) {
+$.dtable.on('rowClick', function (e) {
 	alert(e.row.title);
 });
 

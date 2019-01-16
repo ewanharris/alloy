@@ -31,7 +31,7 @@ function flip(e) {
 		front = $.front;
 		back = $.back;
 	}
-	animation.flipHorizontal(front, back, 500, function(e) {
+	animation.flipHorizontal(front, back, 500, function (e) {
 		Ti.API.info('flipped');
 	});
 }

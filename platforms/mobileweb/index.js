@@ -1,3 +1,3 @@
-module.exports = new (require('../base.js'))({
+module.exports = new(require('../base.js'))({
 	platform: 'mobileweb'
 });

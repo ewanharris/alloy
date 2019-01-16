@@ -5,13 +5,13 @@ var users = [
 	{ name: 'Ingo', color: 'orange' }
 ];
 
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	for (var i = 0; i < users.length; i++) {
 		migrator.insertRow(users[i]);
 	}
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	for (var i = 0; i < users.length; i++) {
 		migrator.deleteRow(users[i]);
 	}

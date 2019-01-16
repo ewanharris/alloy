@@ -8,7 +8,7 @@ var fighters = [
 	{ name: 'Manny Pacquiao', nickname: 'Pac-Man', fighterId: 'manny' },
 	{ name: 'Muhammad Ali', nickname: 'The Greatest', fighterId: 'ali' }
 ];
-_.each(fighters, function(fighter) {
+_.each(fighters, function (fighter) {
 	var model = Alloy.createModel('fighters', fighter);
 	model.save();
 });

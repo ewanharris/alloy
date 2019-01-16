@@ -1,11 +1,11 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($, opts) {
+module.exports = function ($, opts) {
 	opts = opts || {};
 	jasmine.currentEnv_ = null;
 
 	// all labels in this controller use the same generic style
-	var labelValidator = function(id) {
+	var labelValidator = function (id) {
 		return {
 			api: '',
 			style: {
@@ -26,7 +26,7 @@ module.exports = function($, opts) {
 
 	addMatchers();
 
-	describe('detail controller', function() {
+	describe('detail controller', function () {
 		validateUiComponent($, 'detail', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -42,7 +42,7 @@ module.exports = function($, opts) {
 		validateUiComponent($, 'age', labelValidator('age'));
 		validateUiComponent($, 'record', labelValidator('record'));
 
-		it('has proper text in UI', function() {
+		it('has proper text in UI', function () {
 			var stats = opts.stats || {};
 
 			if (OS_ANDROID) {

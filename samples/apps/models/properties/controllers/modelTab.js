@@ -2,7 +2,7 @@ var ID = 'instance';
 var app = Alloy.createModel('modelTab');
 
 // Change label when 'count' changes on model
-app.on('fetch change:count', function(model) {
+app.on('fetch change:count', function (model) {
 	$.label.text = 'model: ' + JSON.stringify(app.attributes);
 });
 
@@ -10,9 +10,9 @@ app.on('fetch change:count', function(model) {
 app.set('id', ID);
 app.fetch();
 
-////////////////////////////////////
-////////// event handlers //////////
-////////////////////////////////////
+// //////////////////////////////////
+// //////// event handlers //////////
+// //////////////////////////////////
 function create(e) {
 	app.save(app.defaults);
 }

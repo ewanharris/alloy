@@ -16,7 +16,7 @@ function closeDialog(e) {
 	$.dialog.close();
 }
 
-exports.show = function(duration) {
+exports.show = function (duration) {
 	// initialize progress dialog
 	$.button.title = 'I quit!';
 	$.progressFront.width = 20;

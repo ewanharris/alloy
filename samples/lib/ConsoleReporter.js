@@ -1,21 +1,21 @@
 var colors = require('colors');
 
-//Based on Console Reporter, taken from https://github.com/pivotal/jasmine/blob/master/src/console/ConsoleReporter.js
-module.exports = function(opts) {
-	//inspired by mhevery's jasmine-node reporter
-	//https://github.com/mhevery/jasmine-node
+// Based on Console Reporter, taken from https://github.com/pivotal/jasmine/blob/master/src/console/ConsoleReporter.js
+module.exports = function (opts) {
+	// inspired by mhevery's jasmine-node reporter
+	// https://github.com/mhevery/jasmine-node
 	opts = opts || {};
 
-	var doneCallback = opts.doneCallback || function(r) {
-		if (r && r.results() && r.results().failedCount > 0 ) {
+	var doneCallback = opts.doneCallback || function (r) {
+		if (r && r.results() && r.results().failedCount > 0) {
 			process.exit(1);
 		}
 	};
 	var print, showColors;
 	if (typeof Ti !== 'undefined') {
-		print = Ti.Platform.osname === 'android' ?
-			function(s) { Ti.API.info(s); } :
-			Ti.API.info;
+		print = Ti.Platform.osname === 'android'
+			? function (s) { Ti.API.info(s); }
+			: Ti.API.info;
 		showColors = false;
 	} else {
 		print = console.log;
@@ -29,10 +29,10 @@ module.exports = function(opts) {
 		failure: 'failure'
 	};
 
-	var plainPrint = function(str) { return str; };
-	var greenStr = showColors ? function(str) { return str.green; } : plainPrint;
-	var redStr = showColors ? function(str) { return str.red; } : plainPrint;
-	var yellowStr = showColors ? function(str) { return str.yellow; } : plainPrint;
+	var plainPrint = function (str) { return str; };
+	var greenStr = showColors ? function (str) { return str.green; } : plainPrint;
+	var redStr = showColors ? function (str) { return str.red; } : plainPrint;
+	var yellowStr = showColors ? function (str) { return str.yellow; } : plainPrint;
 
 	function started() {
 		print('Begin Alloy Test Suite');
@@ -89,8 +89,8 @@ module.exports = function(opts) {
 	}
 
 	function summary(colorF, specs, failed) {
-		print(colorF(specs + ' ' + plural(language.spec, specs) + ', ' +
-		failed + ' ' + plural(language.failure, failed)));
+		print(colorF(specs + ' ' + plural(language.spec, specs) + ', '
+		+ failed + ' ' + plural(language.failure, failed)));
 	}
 
 	function greenSummary(specs, failed) {
@@ -103,23 +103,23 @@ module.exports = function(opts) {
 
 	function fullSuiteDescription(suite) {
 		var fullDescription = suite.description;
-		if (suite.parentSuite) fullDescription = fullSuiteDescription(suite.parentSuite) + ' ' + fullDescription;
+		if (suite.parentSuite) { fullDescription = fullSuiteDescription(suite.parentSuite) + ' ' + fullDescription; }
 		return fullDescription;
 	}
 
-	this.now = function() {
+	this.now = function () {
 		return new Date().getTime();
 	};
 
-	this.reportRunnerStarting = function() {
+	this.reportRunnerStarting = function () {
 		this.runnerStartTime = this.now();
 		started();
 	};
 
-	this.reportSpecStarting = function() { /* do nothing */
+	this.reportSpecStarting = function () { /* do nothing */
 	};
 
-	this.reportSpecResults = function(spec) {
+	this.reportSpecResults = function (spec) {
 		var results = spec.results();
 		var desc = '';
 
@@ -142,14 +142,14 @@ module.exports = function(opts) {
 
 	this.suiteResults = [];
 
-	this.reportSuiteResults = function(suite) {
+	this.reportSuiteResults = function (suite) {
 		var suiteResult = {
 			description: fullSuiteDescription(suite),
 			failedSpecResults: []
 		};
 
-		suite.results().items_.forEach(function(spec) {
-			if (spec.failedCount > 0 && spec.description) suiteResult.failedSpecResults.push(spec);
+		suite.results().items_.forEach(function (spec) {
+			if (spec.failedCount > 0 && spec.description) { suiteResult.failedSpecResults.push(spec); }
 		});
 
 		this.suiteResults.push(suiteResult);
@@ -171,8 +171,8 @@ module.exports = function(opts) {
 		}
 	}
 
-	this.reportRunnerResults = function(runner) {
-		eachSpecFailure(this.suiteResults, function(suiteDescription, specDescription, stackTraces, messages) {
+	this.reportRunnerResults = function (runner) {
+		eachSpecFailure(this.suiteResults, function (suiteDescription, specDescription, stackTraces, messages) {
 			specFailureDetails(suiteDescription, specDescription, stackTraces, messages);
 		});
 

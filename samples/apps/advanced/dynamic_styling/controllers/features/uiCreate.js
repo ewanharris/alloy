@@ -24,14 +24,14 @@ var index = 0;
 var styles = [
 	{},
 	{
-		classes: ['blue', 'shadow', 'large'],
+		classes: [ 'blue', 'shadow', 'large' ],
 		id: 'tester'
 	},
 	{
-		classes: ['dark', 'huge']
+		classes: [ 'dark', 'huge' ]
 	},
 	{
-		classes: ['shadow'],
+		classes: [ 'shadow' ],
 		id: 'specificLabel',
 
 		// a few inline properties

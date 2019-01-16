@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('window controller', function() {
+	describe('window controller', function () {
 		validateUiComponent($, 'leftButton', {
 			api: 'Ti.UI.Button',
 			style: {

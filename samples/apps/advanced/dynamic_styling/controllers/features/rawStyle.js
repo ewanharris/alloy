@@ -1,7 +1,7 @@
 Alloy.Globals.setupWindow($.win);
 
 $.styleModule.html = _.template(Alloy.Globals.htmlTemplate, {
-	CODE: "require('alloy/styles/rawStyle')",
+	CODE: 'require(\'alloy/styles/rawStyle\')',
 	BRUSH: 'js'
 });
 

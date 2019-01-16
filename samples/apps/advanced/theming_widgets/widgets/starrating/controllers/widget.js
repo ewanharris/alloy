@@ -4,7 +4,7 @@ var args = arguments[0] || {},
 	max = 5;
 
 // public method to set the rating
-var setRating = function(newRating) {
+var setRating = function (newRating) {
 	// save newRating to the instance's rating property
 	if (newRating > max) {
 		newRating = max;
@@ -26,12 +26,12 @@ var setRating = function(newRating) {
 exports.setRating = setRating;
 
 // public method to get current rating
-exports.getRating = function() {
+exports.getRating = function () {
 	return rating;
 };
 
 // private method
-var createStars = function(num, cb) {
+var createStars = function (num, cb) {
 	for (var i = 0; i < num; i++) {
 		// define the image view
 		var star = Alloy.createWidget('starrating', 'star').getView();
@@ -39,13 +39,13 @@ var createStars = function(num, cb) {
 		// use a closure (self-calling function) to add
 		// a click-event listener that calls setRating
 		// passing the value of i+1
-		(function() {
+		(function () {
 			var index = i;
-			star.addEventListener('click', function() {
+			star.addEventListener('click', function () {
 				setRating(index + 1);
 				cb(index + 1);
 			});
-		})();
+		}());
 		// add the star image to the stars array
 		stars.push(star);
 		// add the star image to the instance view
@@ -56,7 +56,7 @@ var createStars = function(num, cb) {
 exports.init = function (callback) {
 	var max = args.max || 5,
 		initialRating = args.initialRating || 0,
-		cb = callback || function() {};
+		cb = callback || function () {};
 	createStars(max, cb);
 	setRating(initialRating);
 	// can't apply view properties from the calling context when you use this widget
@@ -64,15 +64,4 @@ exports.init = function (callback) {
 	_.extend($.starrating, args);
 
 };
-
-
-
-
-
-
-
-
-
-
-
 

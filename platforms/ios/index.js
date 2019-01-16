@@ -1,6 +1,6 @@
-module.exports = new (require('../base.js'))({
+module.exports = new(require('../base.js'))({
 	platform: 'ios',
 	titaniumFolder: 'iphone',
 	name: 'iPhone OS',
-	osname: ['ipad', 'iphone']
+	osname: [ 'ipad', 'iphone' ]
 });

@@ -1,6 +1,6 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($, opts) {
+module.exports = function ($, opts) {
 	opts = opts || {};
 	jasmine.currentEnv_ = null;
 	addMatchers();
@@ -68,7 +68,7 @@ module.exports = function($, opts) {
 
 	$.__styler = styler;
 
-	describe('dialog controller', function() {
+	describe('dialog controller', function () {
 		validateUiComponent($, 'dialog', {
 			api: 'Ti.UI.Window',
 			style: {
