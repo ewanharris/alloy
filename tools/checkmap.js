@@ -14,22 +14,22 @@ var async = require('async'),
 	SM = require('source-map'),
 	_ = require('lodash');
 
-scan(path.join(__dirname, '..', 'test', 'projects', 'Harness', 'build', 'map', 'Resources'), '.map', function(err, files) {
+scan(path.join(__dirname, '..', 'test', 'projects', 'Harness', 'build', 'map', 'Resources'), '.map', function (err, files) {
 	// Do something with files that ends in '.ext'.
-	_.map(files, function(sourceMapFile) {
+	_.map(files, function (sourceMapFile) {
 		console.log(path.basename(sourceMapFile));
 		console.log('------------------------------');
 		console.log('Generated line -> Original line');
-		var sourceMap = fs.readFileSync(sourceMapFile, {encoding: 'utf8'}),
+		var sourceMap = fs.readFileSync(sourceMapFile, { encoding: 'utf8' }),
 			lineArray = [];
 		var smc = new SM.SourceMapConsumer(sourceMap);
 		smc.eachMapping(function (m) {
-			lineArray.push({gen: m.generatedLine, orig: m.originalLine});
+			lineArray.push({ gen: m.generatedLine, orig: m.originalLine });
 		});
-		var uniqueList = _.uniq(lineArray, function(item, key, gen) {
+		var uniqueList = _.uniq(lineArray, function (item, key, gen) {
 			return item.gen;
 		});
-		_.each(uniqueList, function(l) {
+		_.each(uniqueList, function (l) {
 			var spacer = '                  '.slice(JSON.stringify(l.gen).length);
 			console.log('   ' + l.gen + spacer + l.orig);
 		});
@@ -37,18 +37,17 @@ scan(path.join(__dirname, '..', 'test', 'projects', 'Harness', 'build', 'map', '
 	});
 });
 
-
 function scan(dir, suffix, callback) {
-	fs.readdir(dir, function(err, files) {
+	fs.readdir(dir, function (err, files) {
 		var returnFiles = [];
-		async.each(files, function(file, next) {
+		async.each(files, function (file, next) {
 			var filePath = dir + '/' + file;
-			fs.stat(filePath, function(err, stat) {
+			fs.stat(filePath, function (err, stat) {
 				if (err) {
 					return next(err);
 				}
 				if (stat.isDirectory()) {
-					scan(filePath, suffix, function(err, results) {
+					scan(filePath, suffix, function (err, results) {
 						if (err) {
 							return next(err);
 						}
@@ -62,7 +61,7 @@ function scan(dir, suffix, callback) {
 					next();
 				}
 			});
-		}, function(err) {
+		}, function (err) {
 			callback(err, returnFiles);
 		});
 	});
