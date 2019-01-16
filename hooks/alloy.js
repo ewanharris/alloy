@@ -89,7 +89,7 @@ exports.init = function (logger, config, cli, appc) {
 			// alloy and hope it's in the system path or a well known place
 			var paths = {};
 			var locatorCmd = process.platform === 'win32' ? 'where' : 'which';
-			parallel(this, ['alloy', 'node'].map(function (bin) {
+			parallel(this, [ 'alloy', 'node' ].map(function (bin) {
 				return function (done) {
 					var envName = 'ALLOY_' + (bin === 'node' ? 'NODE_' : '') + 'PATH';
 
@@ -124,15 +124,15 @@ exports.init = function (logger, config, cli, appc) {
 			}), function () {
 
 				// compose alloy command execution
-				var cmd = [paths.node, paths.alloy, 'compile', appDir, '--config', config];
+				var cmd = [ paths.node, paths.alloy, 'compile', appDir, '--config', config ];
 				if (cli.argv['no-colors'] || cli.argv['color'] === false) { cmd.push('--no-colors'); }
 
 				// process each line of output from alloy
 				function checkLine(line) {
 					var re = new RegExp(
-						'^(?:\u001b\\[\\d+m)?\\[?(' +
-						logger.getLevels().join('|') +
-						')\\]?\s*(?:\u001b\\[\\d+m)?(.*)', 'i'
+						'^(?:\u001b\\[\\d+m)?\\[?('
+						+ logger.getLevels().join('|')
+						+ ')\\]?\s*(?:\u001b\\[\\d+m)?(.*)', 'i'
 					);
 					if (line) {
 						var m = line.match(re);
@@ -149,13 +149,13 @@ exports.init = function (logger, config, cli, appc) {
 				if (process.platform === 'win32' && paths.alloy === 'alloy.cmd') {
 					cmd.shift();
 					logger.info(__('Executing Alloy compile: %s',
-						['cmd', '/s', '/c'].concat(cmd).join(' ').cyan));
+						[ 'cmd', '/s', '/c' ].concat(cmd).join(' ').cyan));
 
 					// arg processing from https://github.com/MarcDiethelm/superspawn
-					child = spawn('cmd', [['/s', '/c', '"' +
-						cmd.map(function(a) {
-							if (/^[^"].* .*[^"]/.test(a)) return '"' + a + '"'; return a;
-						}).join(' ') + '"'].join(' ')], {
+					child = spawn('cmd', [ [ '/s', '/c', '"'
+						+ cmd.map(function (a) {
+							if (/^[^"].* .*[^"]/.test(a)) { return '"' + a + '"'; } return a;
+						}).join(' ') + '"' ].join(' ') ], {
 						stdio: 'inherit',
 						windowsVerbatimArguments: true
 					});
