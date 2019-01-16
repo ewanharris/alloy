@@ -3,7 +3,7 @@ const CU = require('../compilerUtils');
 const U = require('../../../utils');
 const MIN_VERSION = '8.0.0';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	const tiappSdkVersion = tiapp.getSdkVersion();
 	if (tiapp.version.lt(tiappSdkVersion, MIN_VERSION)) {
 		const platform = CU.getCompilerConfig().alloyConfig.platform;

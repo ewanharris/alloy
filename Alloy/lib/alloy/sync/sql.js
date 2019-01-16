@@ -36,8 +36,8 @@ function Migrator(config, transactionDb) {
 	this.table = config.adapter.collection_name;
 	this.idAttribute = config.adapter.idAttribute;
 
-	//TODO: normalize columns at compile time - https://jira.appcelerator.org/browse/ALOY-222
-	this.column = function(name) {
+	// TODO: normalize columns at compile time - https://jira.appcelerator.org/browse/ALOY-222
+	this.column = function (name) {
 		// split into parts to keep additional column characteristics like
 		// autoincrement, primary key, etc...
 		var parts = name.split(/\s+/);
@@ -82,7 +82,7 @@ function Migrator(config, transactionDb) {
 		return parts.join(' ');
 	};
 
-	this.createTable = function(config) {
+	this.createTable = function (config) {
 		// compose the create query
 		var columns = [];
 		var found = false;
@@ -101,11 +101,11 @@ function Migrator(config, transactionDb) {
 		this.db.execute(sql);
 	};
 
-	this.dropTable = function() {
+	this.dropTable = function () {
 		this.db.execute('DROP TABLE IF EXISTS ' + this.table);
 	};
 
-	this.insertRow = function(columnValues) {
+	this.insertRow = function (columnValues) {
 		var columns = [];
 		var values = [];
 		var qs = [];
@@ -130,7 +130,7 @@ function Migrator(config, transactionDb) {
 		this.db.execute('INSERT INTO ' + this.table + ' (' + columns.join(',') + ') VALUES (' + qs.join(',') + ');', values);
 	};
 
-	this.deleteRow = function(columns) {
+	this.deleteRow = function (columns) {
 		var sql = 'DELETE FROM ' + this.table;
 		var keys = _.keys(columns);
 		var len = keys.length;
@@ -160,7 +160,7 @@ function Sync(method, model, opts) {
 	switch (method) {
 		case 'create':
 		case 'update':
-			resp = (function() {
+			resp = (function () {
 				var attrObj = {};
 
 				if (!model.id) {
@@ -170,7 +170,9 @@ function Sync(method, model, opts) {
 				}
 
 				// assemble columns and values
-				var names = [], values = [], q = [];
+				var names = [],
+					values = [],
+					q = [];
 				for (var k in columns) {
 					names.push(k);
 					values.push(model.get(k));
@@ -193,7 +195,7 @@ function Sync(method, model, opts) {
 				db.close();
 
 				return model.toJSON();
-			})();
+			}());
 			break;
 
 		case 'read':
@@ -271,9 +273,7 @@ function Sync(method, model, opts) {
 	if (resp) {
 		if (_.isFunction(opts.success)) { opts.success(resp); }
 		if (method === 'read' && !opts.silent) { model.trigger('fetch', { fromAdapter: true }); }
-	} else {
-		if (_.isFunction(opts.error)) { opts.error(resp); }
-	}
+	} else if (_.isFunction(opts.error)) { opts.error(resp); }
 
 }
 
@@ -310,8 +310,8 @@ function Migrate(Model) {
 	// the last migration if it's not present. If we still don't have a
 	// migration number after that, that means there are none. There's
 	// no migrations to perform.
-	var targetNumber = typeof config.adapter.migration === 'undefined' ||
-		config.adapter.migration === null ? lastMigration.id : config.adapter.migration;
+	var targetNumber = typeof config.adapter.migration === 'undefined'
+		|| config.adapter.migration === null ? lastMigration.id : config.adapter.migration;
 	if (typeof targetNumber === 'undefined' || targetNumber === null) {
 		var tmpDb = Ti.Database.open(config.adapter.db_name);
 		migrator.db = tmpDb;
@@ -319,7 +319,7 @@ function Migrate(Model) {
 		tmpDb.close();
 		return;
 	}
-	targetNumber = targetNumber + ''; // ensure that it's a string
+	targetNumber += ''; // ensure that it's a string
 
 	// Create the migration tracking table if it doesn't already exist.
 	// Get the current saved migration number.
@@ -391,7 +391,7 @@ function installDatabase(config) {
 	if (match === null) {
 		throw 'Invalid sql database filename "' + dbFile + '"';
 	}
-	//var isAbsolute = match[1] ? true : false;
+	// var isAbsolute = match[1] ? true : false;
 	config.adapter.db_name = config.adapter.db_name || match[2];
 	var dbName = config.adapter.db_name;
 
@@ -407,7 +407,8 @@ function installDatabase(config) {
 
 	// compose config.columns from table definition in database
 	var rs = db.execute('pragma table_info("' + table + '");');
-	var columns = {}, cName, cType;
+	var columns = {},
+		cName, cType;
 	if (rs) {
 		while (rs.isValidRow()) {
 			cName = rs.fieldByName('name');
@@ -443,8 +444,8 @@ function installDatabase(config) {
 	// make sure we have a unique id field
 	if (config.adapter.idAttribute) {
 		if (!_.contains(_.keys(config.columns), config.adapter.idAttribute)) {
-			throw 'config.adapter.idAttribute "' + config.adapter.idAttribute + '" not found in list of columns for table "' + table + '"\n' +
-				'columns: [' + _.keys(config.columns).join(',') + ']';
+			throw 'config.adapter.idAttribute "' + config.adapter.idAttribute + '" not found in list of columns for table "' + table + '"\n'
+				+ 'columns: [' + _.keys(config.columns).join(',') + ']';
 		}
 	} else {
 		Ti.API.info('No config.adapter.idAttribute specified for table "' + table + '"');
@@ -452,7 +453,7 @@ function installDatabase(config) {
 
 		var fullStrings = [],
 			colStrings = [];
-		_.each(config.columns, function(type, name) {
+		_.each(config.columns, function (type, name) {
 			colStrings.push(name);
 			fullStrings.push(name + ' ' + type);
 		});
@@ -469,7 +470,7 @@ function installDatabase(config) {
 	db.close();
 }
 
-module.exports.beforeModelCreate = function(config, name) {
+module.exports.beforeModelCreate = function (config, name) {
 	// use cached config if it exists
 	if (cache.config[name]) {
 		return cache.config[name];
@@ -495,7 +496,7 @@ module.exports.beforeModelCreate = function(config, name) {
 	return config;
 };
 
-module.exports.afterModelCreate = function(Model, name) {
+module.exports.afterModelCreate = function (Model, name) {
 	// use cached Model class if it exists
 	if (cache.Model[name]) {
 		return cache.Model[name];

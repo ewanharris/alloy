@@ -3,9 +3,9 @@ var _ = require('lodash'),
 	U = require('../../../utils'),
 	CU = require('../compilerUtils');
 
-var VALID = ['Ti.UI.Window', 'Ti.UI.TabGroup', 'Ti.UI.iOS.NavigationWindow', 'Ti.UI.NavigationWindow'];
+var VALID = [ 'Ti.UI.Window', 'Ti.UI.TabGroup', 'Ti.UI.iOS.NavigationWindow', 'Ti.UI.NavigationWindow' ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -26,14 +26,14 @@ function parse(node, state, args) {
 		U.die(err);
 	}
 
-	_.each(children, function(child) {
+	_.each(children, function (child) {
 		var theNode = CU.validateNodeName(child, VALID);
 		var childArgs = CU.getParserArgs(child);
 		if (theNode) {
 			var subParentSymbol;
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					subParentSymbol = state.parent.symbol;
 					subParents.push(subParentSymbol);
 				}
@@ -51,8 +51,8 @@ function parse(node, state, args) {
 
 	// The first window is the master, the second window is the detail
 	state.extraStyle = styler.createVariableStyle([
-		['masterView', subParents[0]],
-		['detailView', subParents[1]]
+		[ 'masterView', subParents[0] ],
+		[ 'detailView', subParents[1] ]
 	]);
 	var splitState = require('./default').parse(node, state);
 	code += splitState.code;

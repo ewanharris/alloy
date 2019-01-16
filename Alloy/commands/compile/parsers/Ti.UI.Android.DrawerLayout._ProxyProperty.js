@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	console.log(' Ti.UI.Android.DrawerLayout');
 	_.extend(state, {
 		proxyPropertyDefinition: {

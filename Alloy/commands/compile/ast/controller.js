@@ -12,7 +12,7 @@ const GENCODE_OPTIONS = {
 	retainLines: true
 };
 
-exports.processController = function(code, file) {
+exports.processController = function (code, file) {
 	var baseController = '',
 		moduleCodes = '',
 		newCode = '',
@@ -42,19 +42,19 @@ exports.processController = function(code, file) {
 		}).setContext();
 
 		traverse(ast, {
-			enter: function(path) {
+			enter: function (path) {
 				if (types.isAssignmentExpression(path.node) && isBaseControllerExportExpression(path.node.left)) {
 					// what's equivalent of print_to_string()? I replaced with simple value property assuming it's a string literal
 					baseController = '\'' + path.node.right.value + '\'';
 				}
 			},
 
-			ImportDeclaration: function(path) {
+			ImportDeclaration: function (path) {
 				moduleCodes += generate(path.node, GENCODE_OPTIONS).code;
 				path.remove();
 			},
 
-			ExportNamedDeclaration: function(path) {
+			ExportNamedDeclaration: function (path) {
 				var node = path.node;
 				var specifiers = node.specifiers;
 				if (specifiers && specifiers.length !== 0) {
@@ -71,7 +71,7 @@ exports.processController = function(code, file) {
 
 		if (exportSpecifiers.length > 0) {
 			traverse(ast, {
-				enter: function(path) {
+				enter: function (path) {
 					var node = path.node,
 						name;
 					if (node.type === 'VariableDeclaration') {

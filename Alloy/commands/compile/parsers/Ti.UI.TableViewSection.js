@@ -13,7 +13,7 @@ var VALID = [
 ];
 var ALL_VALID = _.union(PROXY_PROPERTIES, VALID);
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -24,7 +24,7 @@ function parse(node, state, args) {
 		proxyProperties = {};
 
 	// iterate through all children of the TableView
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var fullname = CU.getNodeFullname(child),
 			theNode = CU.validateNodeName(child, ALL_VALID),
 			isProxyProperty = false,
@@ -50,7 +50,7 @@ function parse(node, state, args) {
 			// generate the controller node
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					parentSymbol = state.parent.symbol;
 					controllerSymbol = state.controller;
 				}
@@ -58,7 +58,7 @@ function parse(node, state, args) {
 
 			// set up any proxy properties at the top-level of the controller
 			var inspect = CU.inspectRequireNode(child);
-			_.each(_.uniq(inspect.names), function(name) {
+			_.each(_.uniq(inspect.names), function (name) {
 				if (_.includes(PROXY_PROPERTIES, name)) {
 					var prop = U.proxyPropertyNameFromFullname(name);
 					proxyProperties[prop] = controllerSymbol + '.getProxyPropertyEx("' + prop + '", {recurse:true})';
@@ -76,7 +76,7 @@ function parse(node, state, args) {
 		if (isProxyProperty) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxyProperties[U.proxyPropertyNameFromFullname(theNode)] = state.parent.symbol;
 				}
 			});
@@ -85,7 +85,7 @@ function parse(node, state, args) {
 		} else if (!isControllerNode) {
 			rowCode += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return '<%= sectionSymbol %>.add(' + state.parent.symbol + ');';
 				}
 			});
@@ -93,8 +93,8 @@ function parse(node, state, args) {
 	});
 
 	// add all creation time properties to the state
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 	if (extras.length) { state.extraStyle = styler.createVariableStyle(extras); }
 

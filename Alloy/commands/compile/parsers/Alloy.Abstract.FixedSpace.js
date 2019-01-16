@@ -5,13 +5,13 @@ var U = require('../../../utils'),
 
 var MIN_VERSION = '5.4.0';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
 	// width is a valid property for a FIXED_SPACE button, add in if specified
-	var width = (args.createArgs.width) ? ", width:'" + args.createArgs.width + "'" : '';
+	var width = (args.createArgs.width) ? ', width:\'' + args.createArgs.width + '\'' : '';
 
 	if (tiapp.version.gte(tiapp.getSdkVersion(), MIN_VERSION)) {
 		iOSProxy = 'iOS';

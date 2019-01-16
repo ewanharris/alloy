@@ -14,7 +14,7 @@ function fixDefinition(def) {
 	return def;
 }
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -30,7 +30,7 @@ function parse(node, state, args) {
 	}
 
 	var children = U.XML.getElementsFromNodes(node.childNodes);
-	var isCollectionBound = args[CONST.BIND_COLLECTION] ? true : false;
+	var isCollectionBound = !!args[CONST.BIND_COLLECTION];
 	var code = children.length ? 'var ' + state.itemsArray + ' = [];' : '';
 
 	if (node.parentNode.nodeName === 'MenuPopup') {
@@ -38,9 +38,9 @@ function parse(node, state, args) {
 	}
 
 	// Run the translations and/or validations
-	_.each(children, function(child) {
+	_.each(children, function (child) {
 		var childArgs = CU.getParserArgs(child, state);
-		_.each(def.translations, function(t) {
+		_.each(def.translations, function (t) {
 			if (childArgs.fullname === t.from) {
 				var match = t.to.match(/^(.+)\.(.+)$/);
 				child.nodeName = match[2];
@@ -58,7 +58,7 @@ function parse(node, state, args) {
 			if (!isCollectionBound) {
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function(node, s, args) {
+					post: function (node, s, args) {
 						return state.itemsArray + '.push(' + s.parent.symbol + ');';
 					}
 				});
@@ -75,12 +75,12 @@ function parse(node, state, args) {
 		var itemCode = '';
 		var itemsVar = CU.generateUniqueId();
 
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 			itemCode += CU.generateNodeExtended(child, state, {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return itemsVar + '.push(' + state.parent.symbol + ');\n';
 				}
 			});

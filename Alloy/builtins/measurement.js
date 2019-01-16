@@ -74,34 +74,34 @@ function convert(val, fromUnit, toUnit) {
 }
 
 module.exports = exports = {
-	dpToPX: function(val) {
+	dpToPX: function (val) {
 		return convert(val, Ti.UI.UNIT_DIP, Ti.UI.UNIT_PX);
 	},
-	dpToSystem: function(val) {
+	dpToSystem: function (val) {
 		return convert(val, Ti.UI.UNIT_DIP, currentUnit);
 	},
-	pxToDP: function(val) {
+	pxToDP: function (val) {
 		return convert(val, Ti.UI.UNIT_PX, Ti.UI.UNIT_DIP);
 	},
-	pxToSystem: function(val) {
+	pxToSystem: function (val) {
 		return convert(val, Ti.UI.UNIT_PX, currentUnit);
 	},
-	systemToPX: function(val) {
+	systemToPX: function (val) {
 		return convert(val, currentUnit, Ti.UI.UNIT_PX);
 	},
-	systemToDP: function(val) {
+	systemToDP: function (val) {
 		return convert(val, currentUnit, Ti.UI.UNIT_DIP);
 	},
-	convertUnitToPX: function(valStr) {
+	convertUnitToPX: function (valStr) {
 		return Ti.UI.convertUnits(valStr, Ti.UI.UNIT_PX);
 	},
-	convertUnitToDP: function(valStr) {
+	convertUnitToDP: function (valStr) {
 		return Ti.UI.convertUnits(valStr, Ti.UI.UNIT_DIP);
 	},
-	convertUnitToSystem: function(valStr) {
+	convertUnitToSystem: function (valStr) {
 		return Ti.UI.convertUnits(valStr, currentUnit);
 	},
-	pointPXToDP: function(pt) {
+	pointPXToDP: function (pt) {
 		return {
 			x: this.pxToDP(pt.x),
 			y: this.pxToDP(pt.y)

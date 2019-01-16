@@ -1,10 +1,10 @@
 var _ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	state = _.extend(state, {
 		itemContainerDefinition: {
 			children: [
-				{ name:'Alloy.Abstract.BarItemTypes', property:'labels' }
+				{ name: 'Alloy.Abstract.BarItemTypes', property: 'labels' }
 			],
 			translations: [
 				{ from: 'Alloy.Abstract.Labels', to: 'Alloy.Abstract.BarItemTypes' }

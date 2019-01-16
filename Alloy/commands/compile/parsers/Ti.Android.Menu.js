@@ -4,7 +4,7 @@ var _ = require('lodash'),
 	CONST = require('../../../common/constants'),
 	logger = require('../../../logger');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -30,7 +30,7 @@ function parse(node, state, args) {
 	}
 
 	// Start the onCreateOptionsMenu() call
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var childArgs = CU.getParserArgs(child, state);
 		var theNode = CU.validateNodeName(child, 'Ti.Android.MenuItem');
 
@@ -53,7 +53,7 @@ function parse(node, state, args) {
 	});
 
 	// ALOY-784, support Activity properties as attributes of <Menu>
-	var menuTssStyles = _.filter(state.styles, function(elem) {
+	var menuTssStyles = _.filter(state.styles, function (elem) {
 		// generates a sorted array of styles filtered to include only elements
 		// associated with the menu (by ID, class, or API name)
 		return elem.key === node.getAttribute('id') || elem.key === node.getAttribute('class') || elem.key === node.nodeName;
@@ -73,7 +73,7 @@ function parse(node, state, args) {
 	if (menuTssStyles[menuTssKey] && menuTssStyles[menuTssKey].style) {
 		_.defaults(xmlStyles, menuTssStyles[menuTssKey].style);
 	}
-	if ((_.filter(_.values(xmlStyles), function(val) { return val !== undefined; })).length > 0) {
+	if ((_.filter(_.values(xmlStyles), function (val) { return val !== undefined; })).length > 0) {
 		// TODO: once Android 2.x support is deprecated, remove the if(actionBar) test from the following
 		// to speed up execution of the resulting code
 		code += 'if(' + state.parent.symbol + '.activity.actionBar) {\n';

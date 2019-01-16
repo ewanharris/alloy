@@ -7,12 +7,12 @@ function CompilerMakeFile() {
 	this.require = require;
 	this.process = process;
 
-	this.task = function(event, fn) {
+	this.task = function (event, fn) {
 		logger.debug('adding task: ' + event.yellow);
 		handlers[event] = fn;
 	};
 
-	this.trigger = function(event, config) {
+	this.trigger = function (event, config) {
 		logger.debug('compile:trigger-> ' + event.yellow);
 		var fn = handlers[event];
 		if (fn) {

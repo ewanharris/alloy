@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	state = _.extend(state, {
 		itemArrayDefinition: {
 			parents: [

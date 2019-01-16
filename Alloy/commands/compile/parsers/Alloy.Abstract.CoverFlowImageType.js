@@ -1,6 +1,6 @@
 var U = require('../../../utils');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 

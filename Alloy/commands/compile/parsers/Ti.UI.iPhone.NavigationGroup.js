@@ -6,7 +6,7 @@ var styler = require('../styler'),
 
 var DEPRECATED_VERSION = '3.1.3';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -19,7 +19,7 @@ function parse(node, state, args) {
 	}
 
 	var children = U.XML.getElementsFromNodes(node.childNodes),
-		err = ['NavigationGroup must have only one child element, which must be a Window'],
+		err = [ 'NavigationGroup must have only one child element, which must be a Window' ],
 		code = '';
 
 	// NavigationGroup must have 1 window as a child
@@ -36,7 +36,7 @@ function parse(node, state, args) {
 	if (theNode) {
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				windowSymbol = state.parent.symbol;
 			}
 		});

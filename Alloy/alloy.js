@@ -19,17 +19,17 @@ path.existsSync = fs.existsSync || path.existsSync;
 
 // avoid io issues on Windows in nodejs 0.10.X: https://github.com/joyent/node/issues/3584
 if (process.env.ALLOY_TESTS && /^win/i.test(os.platform())) {
-	console.error = function(m) {
+	console.error = function (m) {
 		fs.writeSync(2, m);
 	};
-	console.log = console.warn = console.info = function(m) {
+	console.log = console.warn = console.info = function (m) {
 		fs.writeSync(1, m);
 	};
 }
 
-////////////////////////////////////
-////////// MAIN EXECUTION //////////
-////////////////////////////////////
+// //////////////////////////////////
+// //////// MAIN EXECUTION //////////
+// //////////////////////////////////
 
 // Process command line input
 program
@@ -77,7 +77,6 @@ program.command('remove'.blue + ' <source>'.white)
 
 program.parse(process.argv);
 
-
 // Setup up logging output
 Error.stackTraceLimit = Infinity;
 logger.stripColors = program['colors'] === false;
@@ -111,17 +110,17 @@ if (!_.includes(getCommands(), command)) {
 // Launch command with given arguments and options
 (require('./commands/' + command + '/index'))(program.args.slice(1), program);
 
-///////////////////////////////
-////////// FUNCTIONS //////////
-///////////////////////////////
+// /////////////////////////////
+// //////// FUNCTIONS //////////
+// /////////////////////////////
 function banner() {
-	var str =
-	'       .__  .__                \n' +
-	'_____  |  | |  |   ____ ___.__.\n' +
-	'\\__  \\ |  | |  |  /  _ <   |  |\n' +
-	' / __ \\|  |_|  |_(  <_> )___  |\n' +
-	'(____  /____/____/\\____// ____|\n' +
-	'     \\/                 \\/';
+	var str
+	= '       .__  .__                \n'
+	+ '_____  |  | |  |   ____ ___.__.\n'
+	+ '\\__  \\ |  | |  |  /  _ <   |  |\n'
+	+ ' / __ \\|  |_|  |_(  <_> )___  |\n'
+	+ '(____  /____/____/\\____// ____|\n'
+	+ '     \\/                 \\/';
 
 	if (!program.dump) {
 		console.log(logger.stripColors ? str : str.blue);
@@ -133,7 +132,7 @@ function banner() {
 function getCommands() {
 	try {
 		var commandsPath = path.join(__dirname, 'commands');
-		return _.filter(fs.readdirSync(commandsPath), function(file) {
+		return _.filter(fs.readdirSync(commandsPath), function (file) {
 			return path.existsSync(path.join(commandsPath, file, 'index.js'));
 		});
 	} catch (e) {

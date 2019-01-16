@@ -5,7 +5,7 @@
 var JSON_NULL = JSON.parse('null');
 
 // strips null and undefined values out of Alloy styles
-exports.optimizeStyle = function(styleList) {
+exports.optimizeStyle = function (styleList) {
 	for (var style in styleList) {
 		for (var key in styleList[style]) {
 			var v = styleList[style][key];

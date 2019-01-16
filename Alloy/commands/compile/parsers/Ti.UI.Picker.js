@@ -25,16 +25,16 @@ var DATETIMETYPES = [
 	'Titanium.UI.PICKER_TYPE_COUNT_DOWN_TIMER'
 ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
-
 
 // TODO: Improve effeciency https://jira.appcelerator.org/browse/ALOY-265
 function parse(node, state, args) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		errBase = 'All <Picker> children must be either columns or rows. ',
-		code = '', arrayName,
+		code = '',
+		arrayName,
 		extras = [];
 
 	// ALOY-263, support date/time type pickers
@@ -44,26 +44,26 @@ function parse(node, state, args) {
 		if (node.hasAttribute('value')) {
 			d = U.createDate(node.getAttribute('value'));
 			if (U.isValidDate(d, 'value')) {
-				extras.push(['value', 'new Date("' + d.toString() + '")']);
+				extras.push([ 'value', 'new Date("' + d.toString() + '")' ]);
 			}
 		}
 		if (node.hasAttribute('minDate')) {
 			d = U.createDate(node.getAttribute('minDate'));
 			if (U.isValidDate(d, 'minDate')) {
-				extras.push(['minDate', 'new Date("' + d.toString() + '")']);
+				extras.push([ 'minDate', 'new Date("' + d.toString() + '")' ]);
 			}
 		}
 		if (node.hasAttribute('maxDate')) {
 			d = U.createDate(node.getAttribute('maxDate'));
 			if (U.isValidDate(d, 'maxDate')) {
-				extras.push(['maxDate', 'new Date("' + d.toString() + '")']);
+				extras.push([ 'maxDate', 'new Date("' + d.toString() + '")' ]);
 			}
 		}
 		// Then, handle a couple of boolean date/time related attributes
 		attr = node.getAttribute('format24');
-		extras.push(['format24', attr === 'true']);
+		extras.push([ 'format24', attr === 'true' ]);
 		attr = node.getAttribute('calendarViewShown');
-		extras.push(['calendarViewShown', attr === 'true']);
+		extras.push([ 'calendarViewShown', attr === 'true' ]);
 		// Finally, add all the new attributes/properties
 		if (extras.length) { state.extraStyle = styler.createVariableStyle(extras); }
 	}
@@ -116,7 +116,7 @@ function parse(node, state, args) {
 		// generate the code for each column/row and add it to the array
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, a) {
+			post: function (node, state, a) {
 				return arrayName + '.push(' + state.parent.symbol + ');\n';
 			}
 		});

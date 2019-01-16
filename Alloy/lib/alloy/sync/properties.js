@@ -19,7 +19,7 @@ function Sync(method, model, opts) {
 		if (model instanceof Backbone.Collection) {
 			// is collection
 			var list = [];
-			_.each(TAP.listProperties(), function(prop) {
+			_.each(TAP.listProperties(), function (prop) {
 				var match = prop.match(regex);
 				if (match !== null) {
 					list.push(TAP.getObject(prop));
@@ -49,13 +49,11 @@ function Sync(method, model, opts) {
 	if (resp) {
 		if (_.isFunction(opts.success)) { opts.success(resp); }
 		if (method === 'read') { model.trigger('fetch'); }
-	} else {
-		if (_.isFunction(opts.error)) { opts.error(resp); }
-	}
+	} else if (_.isFunction(opts.error)) { opts.error(resp); }
 }
 
 module.exports.sync = Sync;
-module.exports.beforeModelCreate = function(config) {
+module.exports.beforeModelCreate = function (config) {
 	// make sure we have a populated model object
 	config = config || {};
 	config.columns = config.columns || {};

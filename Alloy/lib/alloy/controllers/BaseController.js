@@ -13,7 +13,7 @@ var Alloy = require('/alloy'),
  * Titanium Views and/or more controllers and widgets.
  *
  */
-var Controller = function() {
+var Controller = function () {
 	var roots = [];
 	var self = this;
 
@@ -29,7 +29,7 @@ var Controller = function() {
 		__views: {},
 		__events: [],
 		__proxyProperties: {},
-		setParent: function(parent) {
+		setParent: function (parent) {
 			var len = roots.length;
 
 			if (!len) { return; }
@@ -48,13 +48,13 @@ var Controller = function() {
 				}
 			}
 		},
-		addTopLevelView: function(view) {
+		addTopLevelView: function (view) {
 			roots.push(view);
 		},
-		addProxyProperty: function(key, value) {
+		addProxyProperty: function (key, value) {
 			this.__proxyProperties[key] = value;
 		},
-		removeProxyProperty: function(key) {
+		removeProxyProperty: function (key) {
 			delete this.__proxyProperties[key];
 		},
 
@@ -77,7 +77,7 @@ var Controller = function() {
 		 *
 		 * @return {Array.<(Titanium.UI.View|Alloy.Controller)>}
 		 */
-		getTopLevelViews: function() {
+		getTopLevelViews: function () {
 			return roots;
 		},
 
@@ -97,18 +97,18 @@ var Controller = function() {
 		 * @param {String} [id] ID of the view to return.
 		 * @return {Titanium.UI.View/Alloy.Controller}
 		 */
-		getView: function(id) {
+		getView: function (id) {
 			if (typeof id === 'undefined' || id === null) {
 				return roots[0];
 			}
 			return this.__views[id];
 		},
-		removeView: function(id) {
+		removeView: function (id) {
 			delete this[id];
 			delete this.__views[id];
 		},
 
-		getProxyProperty: function(name) {
+		getProxyProperty: function (name) {
 			return this.__proxyProperties[name];
 		},
 
@@ -154,7 +154,7 @@ var Controller = function() {
 
 		 * @return {Array.<(Titanium.UI.View|Alloy.Controller)>}
 		 */
-		getViews: function() {
+		getViews: function () {
 			return this.__views;
 		},
 
@@ -171,18 +171,17 @@ var Controller = function() {
 		 * In the following example the view-controller for a {@link Titanium.UI.Window Window} object named `dialog`
 		 * calls its `destroy()` method in response to the Window object being closed.
 
-
 	$.dialog.addEventListener('close', function() {
 		$.destroy();
 	});
 		 */
-		destroy: function() {
+		destroy: function () {
 			// destroy() is defined during the compile process based on
 			// the UI components and binding contained within the controller.
 		},
 
 		// getViewEx for advanced parsing and element traversal
-		getViewEx: function(opts) {
+		getViewEx: function (opts) {
 			var recurse = opts.recurse || false;
 			if (recurse) {
 				var view = this.getView();
@@ -199,7 +198,7 @@ var Controller = function() {
 		},
 
 		// getProxyPropertyEx for advanced parsing and element traversal
-		getProxyPropertyEx: function(name, opts) {
+		getProxyPropertyEx: function (name, opts) {
 			var recurse = opts.recurse || false;
 			if (recurse) {
 				var view = this.getProxyProperty(name);
@@ -253,7 +252,7 @@ var Controller = function() {
 		 * @since 1.2.0
 
 		 */
-		createStyle: function(opts) {
+		createStyle: function (opts) {
 			return Alloy.createStyle(getControllerParam(), opts);
 		},
 
@@ -261,7 +260,7 @@ var Controller = function() {
 		 * Documented in docs/apidoc/controller.js
 		 */
 		UI: {
-			create: function(apiName, opts) {
+			create: function (apiName, opts) {
 				return Alloy.UI.create(getControllerParam(), apiName, opts);
 			}
 		},
@@ -298,7 +297,7 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @param {Dictionary} [opts] Dictionary of properties to apply after classes have been added.
 		 * @since 1.2.0
 		 */
-		addClass: function(proxy, classes, opts) {
+		addClass: function (proxy, classes, opts) {
 			return Alloy.addClass(getControllerParam(), proxy, classes, opts);
 		},
 
@@ -321,7 +320,7 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @param {Dictionary} [opts] Dictionary of properties to apply after the class removal.
 		 * @since 1.2.0
 		 */
-		removeClass: function(proxy, classes, opts) {
+		removeClass: function (proxy, classes, opts) {
 			return Alloy.removeClass(getControllerParam(), proxy, classes, opts);
 		},
 
@@ -345,7 +344,7 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @param {Dictionary} [opts] Dictionary of properties to apply after the reset.
 		 * @since 1.2.0
 		 */
-		resetClass: function(proxy, classes, opts) {
+		resetClass: function (proxy, classes, opts) {
 			return Alloy.resetClass(getControllerParam(), proxy, classes, opts);
 		},
 
@@ -387,10 +386,10 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @since 1.4.0
 
 		 */
-		updateViews: function(args) {
+		updateViews: function (args) {
 			var views = this.getViews();
 			if (_.isObject(args)) {
-				_.each(_.keys(args), function(key) {
+				_.each(_.keys(args), function (key) {
 					var elem = views[key.substring(1)];
 					if (key.indexOf('#') === 0 && key !== '#' && _.isObject(elem) && typeof elem.applyProperties === 'function') {
 						// apply the properties but make sure we're applying them to a Ti.UI object (not a controller)
@@ -417,7 +416,7 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @returns {String} ID attribute of the view object.  If one does not exist, Alloy will create a unique ID.
 		 * @since 1.7.0
 		 */
-		addListener: function(proxy, type, callback) {
+		addListener: function (proxy, type, callback) {
 			if (!proxy.id) {
 				proxy.id = _.uniqueId('__trackId');
 
@@ -456,10 +455,10 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @since 1.7.0
 		 */
 
-		getListener: function(proxy, type) {
-			return _.filter(this.__events, function(event, index) {
-				if ((!proxy || proxy.id === event.id) &&
-					(!type || type === event.type)) {
+		getListener: function (proxy, type) {
+			return _.filter(this.__events, function (event, index) {
+				if ((!proxy || proxy.id === event.id)
+					&& (!type || type === event.type)) {
 					return true;
 				}
 
@@ -492,11 +491,11 @@ The 'redbg' and 'bigger' classes are shown below:
 		 * @returns {Alloy.Controller} Controller instance.
 		 * @since 1.7.0
 		 */
-		removeListener: function(proxy, type, callback) {
-			this.__events.forEach(function(event, index) {
-				if ((!proxy || proxy.id === event.id) &&
-					(!type || type === event.type) &&
-					(!callback || callback === event.handler)) {
+		removeListener: function (proxy, type, callback) {
+			this.__events.forEach(function (event, index) {
+				if ((!proxy || proxy.id === event.id)
+					&& (!type || type === event.type)
+					&& (!callback || callback === event.handler)) {
 					event.view.removeEventListener(event.type, event.handler);
 					delete self.__events[index];
 				}

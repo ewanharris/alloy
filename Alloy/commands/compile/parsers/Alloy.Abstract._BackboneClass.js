@@ -6,7 +6,7 @@ var path = require('path'),
 	_ = require('lodash'),
 	logger = require('../../../logger');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -41,7 +41,7 @@ function parse(node, state, args) {
 		}
 
 		// Make sure we have a valid model src
-		var validModelsPrint = '[' + _.map(validModels, function(s) { return s.replace(/\.js$/, ''); }).join(',') + ']';
+		var validModelsPrint = '[' + _.map(validModels, function (s) { return s.replace(/\.js$/, ''); }).join(',') + ']';
 		if (!src) {
 			U.dieWithNode(node, [
 				'All ' + U.lcfirst(nodeName) + 's must have a "src" attribute which identifies its base model',

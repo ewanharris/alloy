@@ -14,7 +14,7 @@ function fixDefinition(def) {
 	return def;
 }
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -35,7 +35,7 @@ function parse(node, state, args) {
 	if (node.hasChildNodes()) {
 
 		// process children
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 			var childArgs = CU.getParserArgs(child, state);
 
 			// validate children
@@ -48,14 +48,14 @@ function parse(node, state, args) {
 			// generate proxy property
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxy = state.parent.symbol;
 				}
 			});
 		});
 
 	// explicitly create nav buttons from proxy property element
-	} else if (_.includes(['LeftNavButton', 'RightNavButton'], node.nodeName)) {
+	} else if (_.includes([ 'LeftNavButton', 'RightNavButton' ], node.nodeName)) {
 		node.nodeName = 'Button';
 		var exState = _.extend(_.clone(state), { parent: {} });
 		var buttonState = require('./Ti.UI.Button').parse(node, exState);
@@ -69,8 +69,8 @@ function parse(node, state, args) {
 
 	// assign proxy property to parent
 	if (!def.skipAssignParent) {
-		code += (state.parent && state.parent.symbol ? state.parent.symbol : CONST.PARENT_SYMBOL_VAR) +
-				'.' + proxyPropertyName + '=' + proxy + ';';
+		code += (state.parent && state.parent.symbol ? state.parent.symbol : CONST.PARENT_SYMBOL_VAR)
+				+ '.' + proxyPropertyName + '=' + proxy + ';';
 	}
 
 	return {

@@ -3,7 +3,7 @@ var _ = require('lodash'),
 	U = require('../../../utils'),
 	CU = require('../compilerUtils');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -13,11 +13,11 @@ function parse(node, state, args) {
 		extras = [],
 		proxyProperties = {};
 
-	_.each(children, function(child, key) {
+	_.each(children, function (child, key) {
 		if (child.nodeName === 'RefreshControl') {
 			code += CU.generateNodeExtended(child, state, {
 				parent: { },
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxyProperties.refreshControl = state.parent.symbol;
 				}
 			});
@@ -26,8 +26,8 @@ function parse(node, state, args) {
 	});
 
 	// add all proxy properties at creation time
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 
 	// if we got any extras, add them to the state

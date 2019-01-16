@@ -8,7 +8,7 @@ var BINDING_REGEX = /^\s*\{\s*([^\s]+)\s*\}\s*$/;
 var platform = CU.getCompilerConfig().alloyConfig.platform;
 var REQUIRES_VALUE = platform === 'ios';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 

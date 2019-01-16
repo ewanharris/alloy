@@ -3,7 +3,7 @@ var _ = require('lodash'),
 	styler = require('../styler'),
 	U = require('../../../utils');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -17,12 +17,12 @@ function parse(node, state, args) {
 		node.setAttribute('style', 'Ti.UI.iOS.PREVIEW_ACTION_STYLE_' + actionStyle.toUpperCase());
 	}
 
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var childArgs = CU.getParserArgs(child, state);
 
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				children.push(state.parent.symbol);
 
 			}
@@ -31,7 +31,7 @@ function parse(node, state, args) {
 
 	if (children) {
 		state.extraStyle = styler.createVariableStyle([
-			['actions', '[' + children.join(',') + ']']
+			[ 'actions', '[' + children.join(',') + ']' ]
 		]);
 	}
 

@@ -10,13 +10,13 @@ function fixDefinition(def) {
 		children: [],
 		translations: [],
 		doRemoveNode: def.doRemoveNode || typeof(def.doRemoveNode) === 'undefined',
-		processOthers: def.processOthers || function() {},
+		processOthers: def.processOthers || function () {},
 		inViewHierarchy: def.inViewHierarchy || typeof(def.inViewHierarchy) === 'undefined'
 	});
 	return def;
 }
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -28,11 +28,11 @@ function parse(node, state, args) {
 		extras = [],
 		code = '';
 
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var childArgs = CU.getParserArgs(child, state);
 
 		// do translations
-		_.each(def.translations, function(t) {
+		_.each(def.translations, function (t) {
 			if (childArgs.fullname === t.from) {
 				var match = t.to.match(/^(.+)\.(.+)$/);
 				child.nodeName = match[2];
@@ -42,15 +42,15 @@ function parse(node, state, args) {
 
 		// process item arrays if present
 		var theNode = CU.validateNodeName(child, _.map(def.children, 'name'));
-		if (_.find(def.children, function(c) { return c.name === theNode; })) {
+		if (_.find(def.children, function (c) { return c.name === theNode; })) {
 			var childState = {
 				parent: {},
 				itemsArray: CU.generateUniqueId()
 			};
 
 			code += CU.generateNodeExtended(child, state, childState);
-			var prop = _.find(def.children, function(c) { return c.name === theNode; }).property;
-			extras.push([prop, childState.itemsArray]);
+			var prop = _.find(def.children, function (c) { return c.name === theNode; }).property;
+			extras.push([ prop, childState.itemsArray ]);
 
 			// get rid of the node when we're done so we can pass the current state
 			// back to generateNode() and then process any additional views that
@@ -65,8 +65,8 @@ function parse(node, state, args) {
 				if (isAndroid) {
 					androidView = CU.generateNodeExtended(child, state, {
 						parent: {},
-						post: function(node, state, args) {
-							extras.push(['androidView', state.parent.symbol]);
+						post: function (node, state, args) {
+							extras.push([ 'androidView', state.parent.symbol ]);
 						}
 					});
 					code += androidView;

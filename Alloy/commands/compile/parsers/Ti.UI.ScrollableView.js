@@ -4,14 +4,14 @@ var _ = require('lodash'),
 	CU = require('../compilerUtils'),
 	CONST = require('../../../common/constants');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		arrayName = CU.generateUniqueId(),
-		isCollectionBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isCollectionBound = !!args[CONST.BIND_COLLECTION],
 		code = 'var ' + arrayName + '=[];\n';
 
 	if (!isCollectionBound) {
@@ -22,7 +22,7 @@ function parse(node, state, args) {
 			// generate the code for the subview
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return (state && state.parent && state.parent.symbol) ? arrayName + '.push(' + state.parent.symbol + ');\n' : '';
 				}
 			});
@@ -31,7 +31,7 @@ function parse(node, state, args) {
 
 	// create the ScrollableView itself
 	if (isCollectionBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
@@ -43,12 +43,12 @@ function parse(node, state, args) {
 		var localModel = CU.generateUniqueId();
 		var itemCode = '';
 
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 			itemCode += CU.generateNodeExtended(child, state, {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return 'views.push(' + state.parent.symbol + ');\n';
 				}
 			});

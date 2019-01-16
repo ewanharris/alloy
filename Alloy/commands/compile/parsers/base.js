@@ -1,6 +1,6 @@
 var CU = require('../compilerUtils');
 
-exports.parse = function(node, state, parser) {
+exports.parse = function (node, state, parser) {
 	var args = CU.getParserArgs(node, state),
 		code = '';
 

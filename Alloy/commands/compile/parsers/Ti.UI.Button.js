@@ -14,7 +14,7 @@ var systemButtons = [
 	'STOP', 'TRASH'
 ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -22,7 +22,7 @@ function parse(node, state, args) {
 	// Get button title from node text, if present
 	var nodeText = U.XML.getNodeText(node);
 	if (nodeText) {
-		state.extraStyle = styler.createVariableStyle('title', U.possibleMultilineString(U.trim(nodeText.replace(/'/g, "\\'"))));
+		state.extraStyle = styler.createVariableStyle('title', U.possibleMultilineString(U.trim(nodeText.replace(/'/g, '\\\''))));
 	}
 
 	if (tiapp.version.gte(tiapp.getSdkVersion(), MIN_VERSION)) {

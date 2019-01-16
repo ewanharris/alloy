@@ -8,7 +8,7 @@ var FUNCTIONS = {
 	original: 'originalPositionFor'
 };
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	// validate arguments
 	if (args.length === 0) {
 		U.die('Missing command and source map file');
@@ -48,8 +48,8 @@ module.exports = function(args, program) {
 	// has no meaning to deveopers since it is not included in
 	// the application itself, only in the Alloy module.
 	var absolute = path.resolve(sourceMapFile);
-	if (command === 'original' &&
-		(new RegExp(ret.source + '\\.map$')).test(absolute)) {
+	if (command === 'original'
+		&& (new RegExp(ret.source + '\\.map$')).test(absolute)) {
 		ret.line = program.line;
 	}
 

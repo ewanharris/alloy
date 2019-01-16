@@ -3,15 +3,15 @@ var path = require('path'),
 	CONST = require('../../../common/constants'),
 	logger = require('../../../logger');
 
-module.exports = function(name, args, program, template) {
+module.exports = function (name, args, program, template) {
 	var type = 'MIGRATION';
 	var dir = path.dirname(name);
 	name = path.join(dir,
 		GU.generateMigrationFileName(path.basename(name, '.' + CONST.FILE_EXT.MIGRATION)));
 	var info = GU.generate(name, type, program, {
 		template: template || {
-			up:'',
-			down:''
+			up: '',
+			down: ''
 		}
 	});
 	logger.info('Generated ' + type.toLowerCase() + ' named ' + name);

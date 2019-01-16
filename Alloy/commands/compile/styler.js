@@ -43,13 +43,13 @@ var RETURN_KEY_TYPES = [
 var AUTOCAPITALIZATION_TYPES = [
 	'ALL', 'NONE', 'SENTENCES', 'WORDS'
 ];
-var KEYBOARD_PROPERTIES = ['keyboardType', 'returnKeyType', 'autocapitalization'];
+var KEYBOARD_PROPERTIES = [ 'keyboardType', 'returnKeyType', 'autocapitalization' ];
 
 // private variables
 var styleOrderCounter = 1;
 var platform;
 
-exports.setPlatform = function(p) {
+exports.setPlatform = function (p) {
 	platform = p;
 };
 
@@ -93,7 +93,7 @@ exports.bindingsMap = {};
  *
  * @returns {Boolean} true if cache was used, false if not
  */
-exports.loadGlobalStyles = function(appPath, opts) {
+exports.loadGlobalStyles = function (appPath, opts) {
 	// reset the global style array
 	exports.globalStyle = [];
 
@@ -161,7 +161,7 @@ exports.loadGlobalStyles = function(appPath, opts) {
 		buildlog.data.globalStyleCacheHash = hash;
 
 		// create the new global style object
-		_.each(loadArray, function(g) {
+		_.each(loadArray, function (g) {
 			if (path.existsSync(g.path)) {
 				logger.info('[' + g.msg + '] global style processing...');
 				exports.globalStyle = exports.loadAndSortStyle(g.path, _.extend(
@@ -191,7 +191,7 @@ exports.loadGlobalStyles = function(appPath, opts) {
  * @param {Object} Parsed style object from a loadStyle() call
  * @param {Object} [opts] Options for this function
  */
-exports.sortStyles = function(style, opts) {
+exports.sortStyles = function (style, opts) {
 	var sortedStyles = [];
 	opts = opts || {};
 
@@ -228,7 +228,7 @@ exports.sortStyles = function(style, opts) {
 
 			if (match[3]) {
 				obj.queries = {};
-				_.each(match[3].replace(/\s*,\s*/g, ',').split(/\s+/), function(query) {
+				_.each(match[3].replace(/\s*,\s*/g, ',').split(/\s+/), function (query) {
 					var parts = query.split('=');
 					var q = U.trim(parts[0]);
 					var v = U.trim(parts[1]);
@@ -259,7 +259,7 @@ exports.sortStyles = function(style, opts) {
 	return _.sortBy(theArray, 'priority');
 };
 
-exports.loadStyle = function(tssFile) {
+exports.loadStyle = function (tssFile) {
 	if (path.existsSync(tssFile)) {
 		// read the style file
 		var contents;
@@ -312,34 +312,35 @@ exports.loadStyle = function(tssFile) {
 	return {};
 };
 
-exports.loadAndSortStyle = function(tssFile, opts) {
+exports.loadAndSortStyle = function (tssFile, opts) {
 	return exports.sortStyles(exports.loadStyle(tssFile), opts);
 };
 
-exports.createVariableStyle = function(keyValuePairs, value) {
+exports.createVariableStyle = function (keyValuePairs, value) {
 	var style = {};
 
 	if (!_.isArray(keyValuePairs)) {
-		keyValuePairs = [[keyValuePairs, value]];
+		keyValuePairs = [ [ keyValuePairs, value ] ];
 	}
-	_.each(keyValuePairs, function(pair) {
+	_.each(keyValuePairs, function (pair) {
 		var k = pair[0];
 		var v = pair[1];
-		style[k] = { value:v };
+		style[k] = { value: v };
 		style[k][STYLE_ALLOY_TYPE] = 'var';
 	});
 	return style;
 };
 
-exports.processStyle = function(_style, _state) {
+exports.processStyle = function (_style, _state) {
 	var theState = _state || {};
 	var regex = EXPR_REGEX;
 	var code = '';
 
 	function processStyle(style, opts) {
 		opts = opts || {};
-		style = opts.fromArray ? {0:style} : style;
-		var groups = {}, sn, value;
+		style = opts.fromArray ? { 0: style } : style;
+		var groups = {},
+			sn, value;
 
 		// need to add "properties" and bindIds for ListItems
 		if (theState && theState.isListItem && opts.firstOrder && !opts.fromArray) {
@@ -371,50 +372,46 @@ exports.processStyle = function(_style, _state) {
 				var matches = value.match(regex);
 				if (matches !== null) {
 					code += prefix + matches[1] + ','; // matched a JS expression
-				} else {
-					if (typeof style.type !== 'undefined' && typeof style.type.indexOf === 'function' && (style.type).indexOf('UI.PICKER') !== -1 && value !== 'picker') {
-						if (DATEFIELDS.indexOf(sn) !== -1) {
-							// ALOY-263, support date/time style pickers
-							var d = U.createDate(value);
+				} else if (typeof style.type !== 'undefined' && typeof style.type.indexOf === 'function' && (style.type).indexOf('UI.PICKER') !== -1 && value !== 'picker') {
+					if (DATEFIELDS.indexOf(sn) !== -1) {
+						// ALOY-263, support date/time style pickers
+						var d = U.createDate(value);
 
-							if (U.isValidDate(d, sn)) {
-								code += prefix + 'new Date("' + d.toString() + '"),';
-							}
-						} else {
-							code += prefix + '"' + value
-								.replace(/"/g, '\\"')
-								.replace(/\n/g, '\\n')
-								.replace(/\r/g, '\\r')
-								.replace(/\u2028/g, '\\u2028')
-								.replace(/\u2029/g, '\\u2029') +  '",'; // just a string
+						if (U.isValidDate(d, sn)) {
+							code += prefix + 'new Date("' + d.toString() + '"),';
 						}
 					} else {
-						if (KEYBOARD_PROPERTIES.indexOf(sn) === -1) {
-							code += prefix + '"' + value
-								.replace(/"/g, '\\"')
-								.replace(/\n/g, '\\n')
-								.replace(/\r/g, '\\r')
-								.replace(/\u2028/g, '\\u2028')
-								.replace(/\u2029/g, '\\u2029') +  '",'; // just a string
-						} else {
-							// keyboard type shortcuts for TextField, TextArea
-							// support shortcuts for keyboard type, return key type, and autocapitalization
-							if (sn === KEYBOARD_PROPERTIES[0] && _.includes(KEYBOARD_TYPES, value.toUpperCase())) {
-								code += prefix + 'Ti.UI.KEYBOARD_' + value.toUpperCase() + ',';
-							}
-							if (sn === KEYBOARD_PROPERTIES[1] && _.includes(RETURN_KEY_TYPES, value.toUpperCase())) {
-								code += prefix + 'Ti.UI.RETURNKEY_' + value.toUpperCase() + ',';
-							}
-							if (sn === KEYBOARD_PROPERTIES[2] && _.includes(AUTOCAPITALIZATION_TYPES, value.toUpperCase())) {
-								code += prefix + 'Ti.UI.TEXT_AUTOCAPITALIZATION_' + value.toUpperCase() + ',';
-							}
-						}
+						code += prefix + '"' + value
+							.replace(/"/g, '\\"')
+							.replace(/\n/g, '\\n')
+							.replace(/\r/g, '\\r')
+							.replace(/\u2028/g, '\\u2028')
+							.replace(/\u2029/g, '\\u2029') +  '",'; // just a string
+					}
+				} else if (KEYBOARD_PROPERTIES.indexOf(sn) === -1) {
+					code += prefix + '"' + value
+						.replace(/"/g, '\\"')
+						.replace(/\n/g, '\\n')
+						.replace(/\r/g, '\\r')
+						.replace(/\u2028/g, '\\u2028')
+						.replace(/\u2029/g, '\\u2029') +  '",'; // just a string
+				} else {
+					// keyboard type shortcuts for TextField, TextArea
+					// support shortcuts for keyboard type, return key type, and autocapitalization
+					if (sn === KEYBOARD_PROPERTIES[0] && _.includes(KEYBOARD_TYPES, value.toUpperCase())) {
+						code += prefix + 'Ti.UI.KEYBOARD_' + value.toUpperCase() + ',';
+					}
+					if (sn === KEYBOARD_PROPERTIES[1] && _.includes(RETURN_KEY_TYPES, value.toUpperCase())) {
+						code += prefix + 'Ti.UI.RETURNKEY_' + value.toUpperCase() + ',';
+					}
+					if (sn === KEYBOARD_PROPERTIES[2] && _.includes(AUTOCAPITALIZATION_TYPES, value.toUpperCase())) {
+						code += prefix + 'Ti.UI.TEXT_AUTOCAPITALIZATION_' + value.toUpperCase() + ',';
 					}
 				}
 			} else if (_.isArray(value)) {
 				code += prefix + '[';
-				_.each(value, function(v) {
-					processStyle(v, {fromArray:true});
+				_.each(value, function (v) {
+					processStyle(v, { fromArray: true });
 				});
 				code += '],';
 			} else if (_.isObject(value)) {
@@ -431,12 +428,12 @@ exports.processStyle = function(_style, _state) {
 			}
 		}
 	}
-	processStyle(_style, {firstOrder:true});
+	processStyle(_style, { firstOrder: true });
 
 	return code;
 };
 
-exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle, theState) {
+exports.generateStyleParams = function (styles, classes, id, apiName, extraStyle, theState) {
 	var styleCollection = [],
 		lastObj = {},
 		elementName = apiName.split('.').pop();
@@ -447,10 +444,10 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 	}
 
 	// process all style items, in order
-	_.each(styles, function(style) {
-		if ((style.isId && style.key === id) ||
-			(style.isClass && _.includes(classes, style.key)) ||
-			(style.isApi && elementName === style.key)) {
+	_.each(styles, function (style) {
+		if ((style.isId && style.key === id)
+			|| (style.isClass && _.includes(classes, style.key))
+			|| (style.isApi && elementName === style.key)) {
 
 			// manage potential runtime conditions for the style
 			var conditionals = {
@@ -466,7 +463,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 				if (q.platform) {
 					if (platform) {
 						var isForCurrentPlatform = false;
-						_.each(q.platform.toString().split(','), function(p) {
+						_.each(q.platform.toString().split(','), function (p) {
 							// need to account for multiple platforms and negation, such as platform=ios or
 							// platform=ios,android   or   platform=!ios   or   platform="android,!mobileweb"
 							if (p === platform || (p.indexOf('!') === 0 && p.substr(1) !== platform)) {
@@ -477,7 +474,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 							return;
 						}
 					} else {
-						_.each(q.platform, function(p) {
+						_.each(q.platform, function (p) {
 							conditionals.platform.push(CU.CONDITION_MAP[p]['runtime']);
 						});
 					}
@@ -504,8 +501,8 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 				// push styles if we need to insert a conditional
 				if (conditional) {
 					if (lastObj) {
-						styleCollection.push({style:lastObj});
-						styleCollection.push({style:style.style, condition:conditional});
+						styleCollection.push({ style: lastObj });
+						styleCollection.push({ style: style.style, condition: conditional });
 						lastObj = {};
 					}
 				} else if (!q.if) {
@@ -513,7 +510,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 				}
 			} else {
 				// remove old style
-				_.each(style.style, function(val, key) {
+				_.each(style.style, function (val, key) {
 					if (_.isArray(val) && lastObj.hasOwnProperty(key)) {
 						delete lastObj[key];
 					}
@@ -525,11 +522,11 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 
 	// add in any final styles
 	_.extend(lastObj, extraStyle || {});
-	if (!_.isEmpty(lastObj)) { styleCollection.push({style:lastObj}); }
+	if (!_.isEmpty(lastObj)) { styleCollection.push({ style: lastObj }); }
 
 	// substitutions for binding
-	_.each(styleCollection, function(style) {
-		_.each(style.style, function(v, k) {
+	_.each(styleCollection, function (style) {
+		_.each(style.style, function (v, k) {
 
 			if (!_.isString(v)) {
 				return;
@@ -548,7 +545,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 
 			var bindingExpParts = [];
 
-			bindingStrParts.forEach(function(part, i) {
+			bindingStrParts.forEach(function (part, i) {
 
 				// empty string
 				if (part === '') {
@@ -561,7 +558,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 				if (!partMatch) {
 
 					// escape single quote: ALOY-1478
-					bindingExpParts.push("'" + part.replace(/'/g, "\\'") + "'");
+					bindingExpParts.push('\'' + part.replace(/'/g, '\\\'') + '\'');
 
 					return;
 				}
@@ -619,7 +616,7 @@ exports.generateStyleParams = function(styles, classes, id, apiName, extraStyle,
 
 			if (bindsModels.length > 0) {
 
-				bindsModels.forEach(function(modelVar) {
+				bindsModels.forEach(function (modelVar) {
 
 					// ensure that the bindings for this model have been initialized
 					if (!exports.bindingsMap[modelVar]) {
@@ -702,7 +699,7 @@ function getCacheFilePath(appPath, hash) {
 // source: https://github.com/lodash/lodash/blob/3.8.1-npm-packages/lodash._topath/index.js
 function toPath(value) {
 	var result = [];
-	value.replace(/[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g, function(match, number, quote, string) {
+	value.replace(/[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g, function (match, number, quote, string) {
 		result.push(quote ? string.replace(/\\(\\)?/g, '$1') : (number || match));
 	});
 	return result;
@@ -712,8 +709,8 @@ function fromPath(path) {
 	var result = path[0];
 
 	if (path.length > 1) {
-		result += '[' + path.slice(1).map(function(string) {
-			return "'" + string.replace(/'/g, "\\'") + "'";
+		result += '[' + path.slice(1).map(function (string) {
+			return '\'' + string.replace(/'/g, '\\\'') + '\'';
 		}).join('][') + ']';
 	}
 

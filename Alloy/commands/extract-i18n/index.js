@@ -11,8 +11,8 @@ var fs = require('fs'),
 	logger = require('../../logger'),
 	i18nHandler = require('./i18nHandler');
 
-var searchString = '(?:L|Ti.Locale.getString|Titanium.Locale.getString)' +
-	"\\(\\s*[\"']([a-zA-Z]\\w*?)[\"']\\s*[\\),]";
+var searchString = '(?:L|Ti.Locale.getString|Titanium.Locale.getString)'
+	+ '\\(\\s*["\']([a-zA-Z]\\w*?)["\']\\s*[\\),]';
 var searchRegex = new RegExp(searchString, 'g');
 var valueRegex = new RegExp(searchString);
 
@@ -25,14 +25,14 @@ function extractStrings() {
 		var viewSuffix = '.' + CONST.FILE_EXT.VIEW;
 
 		// filter only js, xml and style files
-		files = _.filter(files, function(f) {
-			return f.substr(-styleSuffix.length) === styleSuffix ||
-				f.substr(-viewSuffix.length) === viewSuffix ||
-				f.substr(-controllerSuffix.length) === controllerSuffix;
+		files = _.filter(files, function (f) {
+			return f.substr(-styleSuffix.length) === styleSuffix
+				|| f.substr(-viewSuffix.length) === viewSuffix
+				|| f.substr(-controllerSuffix.length) === controllerSuffix;
 		});
 
 		var strings = [];
-		_.each(files, function(f) {
+		_.each(files, function (f) {
 			var file = path.join(sourceDir, f);
 			var fileContent = fs.readFileSync(file, 'utf8');
 			var calls = fileContent.match(searchRegex);
@@ -40,7 +40,7 @@ function extractStrings() {
 			if (calls && calls.length > 0) {
 				logger.debug(file + ': ' + calls.length + ' strings found.');
 
-				_.each(calls, function(call) {
+				_.each(calls, function (call) {
 					var matches = call.match(valueRegex);
 					strings.push(matches[1]);
 				});
@@ -55,7 +55,7 @@ function extractStrings() {
 	}
 }
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	paths = U.getAndValidateProjectPaths(
 		program.outputPath || process.cwd()
 	);

@@ -4,7 +4,7 @@ var _ = require('lodash'),
 	CU = require('../compilerUtils'),
 	CONST = require('../../../common/constants');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -13,11 +13,11 @@ function parse(node, state, args) {
 		arrayName = CU.generateUniqueId(),
 		code = 'var ' + arrayName + ' = [];\n',
 		itemCode = '',
-		isCollectionBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isCollectionBound = !!args[CONST.BIND_COLLECTION],
 		localModel, controllerSymbol;
 
 	if (isCollectionBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
@@ -28,8 +28,8 @@ function parse(node, state, args) {
 			childArgs = CU.getParserArgs(child);
 
 		// Process the Map's Annotations
-		if (childArgs.fullname === 'Ti.Map.Annotation' ||
-			childArgs.fullname === 'Alloy.Require') {
+		if (childArgs.fullname === 'Ti.Map.Annotation'
+			|| childArgs.fullname === 'Alloy.Require') {
 			// ensure <Require> is actually a single <Annotation>
 			if (childArgs.fullname === 'Alloy.Require') {
 				var inspect = CU.inspectRequireNode(child);
@@ -41,7 +41,7 @@ function parse(node, state, args) {
 			// generate code for the Annotation
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return arrayName + '.push(' + state.parent.symbol + ');\n';
 				}
 			});
@@ -60,7 +60,7 @@ function parse(node, state, args) {
 	code += mapState.code;
 
 	if (isCollectionBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 		localModel = localModel || CU.generateUniqueId();
@@ -82,5 +82,5 @@ function parse(node, state, args) {
 	}
 
 	// Update the parsing state
-	return _.extend(mapState, {code:code});
+	return _.extend(mapState, { code: code });
 }

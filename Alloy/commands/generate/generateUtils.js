@@ -15,18 +15,18 @@ function pad(x) {
 	return x;
 }
 
-exports.generateMigrationFileName = function(t) {
+exports.generateMigrationFileName = function (t) {
 	var d = new Date();
-	var s = String(d.getUTCFullYear()) + String(pad(d.getUTCMonth() + 1)) +
-		String(pad(d.getUTCDate())) + String(pad(d.getUTCHours())) +
-		String(pad(d.getUTCMinutes())) + String(d.getUTCMilliseconds());
+	var s = String(d.getUTCFullYear()) + String(pad(d.getUTCMonth() + 1))
+		+ String(pad(d.getUTCDate())) + String(pad(d.getUTCHours()))
+		+ String(pad(d.getUTCMinutes())) + String(d.getUTCMilliseconds());
 	return s + '_' + t;
 };
 
-exports.generate = function(name, type, program, args) {
+exports.generate = function (name, type, program, args) {
 	args = args || {};
 	var ext = '.' + CONST.FILE_EXT[type];
-	var paths = U.getAndValidateProjectPaths(program.outputPath, {command : CONST.COMMANDS.GENERATE});
+	var paths = U.getAndValidateProjectPaths(program.outputPath, { command: CONST.COMMANDS.GENERATE });
 	var templatePath = path.join(alloyRoot, 'template', type.toLowerCase() + ext);
 	// ALOY-372 - Support 'alloy generate' command for widget components
 	var widgetPath = (program.widgetname) ? CONST.DIR['WIDGET'] + path.sep + program.widgetname : '';
@@ -37,22 +37,22 @@ exports.generate = function(name, type, program, args) {
 
 	// add the platform-specific folder to the path, if necessary
 	if (program.platform) {
-		if (_.includes(['VIEW', 'CONTROLLER', 'STYLE'], type)) {
+		if (_.includes([ 'VIEW', 'CONTROLLER', 'STYLE' ], type)) {
 			dir = path.join(dir, program.platform);
 		} else {
-			logger.warn('platform "' + program.platform +
-				'" ignored, not used with type "' + type + '"');
+			logger.warn('platform "' + program.platform
+				+ '" ignored, not used with type "' + type + '"');
 		}
 	}
 
 	// get the final file name
 	var file = path.join(dir, name + ext);
-	var viewFile = path.join(paths.app, CONST.DIR['VIEW'], name + '.' +
-		CONST.FILE_EXT['VIEW']);
+	var viewFile = path.join(paths.app, CONST.DIR['VIEW'], name + '.'
+		+ CONST.FILE_EXT['VIEW']);
 
 	// see if the file already exists
-	if (fs.existsSync(file) && !program.force &&
-		!(type === 'STYLE' && fs.existsSync(viewFile))) {
+	if (fs.existsSync(file) && !program.force
+		&& !(type === 'STYLE' && fs.existsSync(viewFile))) {
 		U.die(' file already exists: ' + file);
 	}
 
@@ -64,7 +64,7 @@ exports.generate = function(name, type, program, args) {
 
 	// only use xml2tss to generate style if the partner view exists
 	if (type === 'STYLE' && fs.existsSync(viewFile)) {
-		xml2tss.updateFile(viewFile, file, function(err, ok) {
+		xml2tss.updateFile(viewFile, file, function (err, ok) {
 			if (ok) {
 				logger.info('Generated style named ' + name);
 			} else {

@@ -8,24 +8,24 @@ var VALID = [
 	'Ti.UI.DashboardItem'
 ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		arrayName = CU.generateUniqueId(),
-		isCollectionBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isCollectionBound = !!args[CONST.BIND_COLLECTION],
 		code = 'var ' + arrayName + '=[];\n';
 
 	// iterate through all children
 	if (!isCollectionBound) {
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function(child, index) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child, index) {
 			if (CU.validateNodeName(child, VALID)) {
 				// generate code for the DashboardItem
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						return arrayName + '.push(' + state.parent.symbol + ');\n';
 					}
 				});
@@ -41,7 +41,7 @@ function parse(node, state, args) {
 
 	// Create the initial DashboardView code
 	if (isCollectionBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
@@ -54,13 +54,13 @@ function parse(node, state, args) {
 		var itemCode = '';
 		var localArray = 'data';
 
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 			// generate the repeated element
 			itemCode += CU.generateNode(child, {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return localArray + '.push(' + state.parent.symbol + ');\n';
 				}
 			});
@@ -83,5 +83,5 @@ function parse(node, state, args) {
 	}
 
 	// Update the parsing state
-	return _.extend(dashState, {code:code});
+	return _.extend(dashState, { code: code });
 }

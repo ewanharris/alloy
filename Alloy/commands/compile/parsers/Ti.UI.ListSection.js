@@ -13,7 +13,7 @@ var VALID = [
 ];
 var ALL_VALID = _.union(PROXY_PROPERTIES, VALID);
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -21,13 +21,13 @@ function parse(node, state, args) {
 	var code = '',
 		itemCode = '',
 		itemsVar = CU.generateUniqueId(),
-		isDataBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isDataBound = !!args[CONST.BIND_COLLECTION],
 		proxyProperties = {},
 		extras = [],
 		itemsArray, localModel;
 
 	// process each child
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var fullname = CU.getNodeFullname(child),
 			theNode = CU.validateNodeName(child, ALL_VALID),
 			isProxyProperty = false,
@@ -52,11 +52,11 @@ function parse(node, state, args) {
 
 			// set up any proxy properties at the top-level of the controller
 			var inspect = CU.inspectRequireNode(child);
-			_.each(_.uniq(inspect.names), function(name) {
+			_.each(_.uniq(inspect.names), function (name) {
 				if (_.includes(PROXY_PROPERTIES, name)) {
 					var prop = U.proxyPropertyNameFromFullname(name);
-					proxyProperties[prop] = '<%= controllerSymbol %>.getProxyPropertyEx("' + prop +
-						'", {recurse:true})';
+					proxyProperties[prop] = '<%= controllerSymbol %>.getProxyPropertyEx("' + prop
+						+ '", {recurse:true})';
 				} else {
 					hasUiNodes = true;
 				}
@@ -67,7 +67,7 @@ function parse(node, state, args) {
 		if (isProxyProperty) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxyProperties[U.proxyPropertyNameFromFullname(theNode)] = state.parent.symbol;
 				}
 			});
@@ -82,7 +82,7 @@ function parse(node, state, args) {
 					parent: {},
 					local: true,
 					model: localModel,
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						controllerSymbol = state.controller;
 						return itemsVar + '.push(' + state.parent.symbol + ');';
 					}
@@ -96,7 +96,7 @@ function parse(node, state, args) {
 				}
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						controllerSymbol = state.controller;
 						return itemsArray + '.push(' + state.parent.symbol + ');';
 					}
@@ -107,7 +107,7 @@ function parse(node, state, args) {
 		} else if (!hasUiNodes && isControllerNode) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					controllerSymbol = state.controller;
 				}
 			});
@@ -115,7 +115,7 @@ function parse(node, state, args) {
 
 		// fill in poxy property templates, if present
 		if (isControllerNode) {
-			_.each(proxyProperties, function(v, k) {
+			_.each(proxyProperties, function (v, k) {
 				proxyProperties[k] = _.template(v)({
 					controllerSymbol: controllerSymbol
 				});
@@ -125,14 +125,14 @@ function parse(node, state, args) {
 
 	// create the ListView itself
 	if (isDataBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
 
 	// add all creation time properties to the state
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 	if (extras.length) { state.extraStyle = styler.createVariableStyle(extras); }
 
@@ -159,9 +159,9 @@ function parse(node, state, args) {
 			localModel: localModel,
 			pre: 'var ' + itemsVar + '=[];',
 			items: itemCode,
-			post: 'opts.animation ? ' +
-				sps + '.setItems(' + itemsVar + ', opts.animation) : ' +
-				sps + '.setItems(' + itemsVar + ');'
+			post: 'opts.animation ? '
+				+ sps + '.setItems(' + itemsVar + ', opts.animation) : '
+				+ sps + '.setItems(' + itemsVar + ');'
 		});
 	}
 

@@ -16,7 +16,7 @@ var AUTOCAPITALIZATION_TYPES = [
 	'ALL', 'NONE', 'SENTENCES', 'WORDS'
 ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -27,7 +27,7 @@ function parse(node, state, args) {
 		proxyProperties = {};
 
 	// iterate through all children of the TextArea
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var fullname = CU.getNodeFullname(child),
 			isProxyProperty = false,
 			isControllerNode = false,
@@ -51,7 +51,7 @@ function parse(node, state, args) {
 		// generate the node
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				controllerSymbol = state.controller;
 				parentSymbol = state.parent ? state.parent.symbol : null;
 			}
@@ -62,7 +62,7 @@ function parse(node, state, args) {
 
 			// set up any proxy properties at the top-level of the controller
 			var inspect = CU.inspectRequireNode(child);
-			_.each(_.uniq(inspect.names), function(name) {
+			_.each(_.uniq(inspect.names), function (name) {
 				if (name.split('.')[0] === '_ProxyProperty') {
 					var prop = U.proxyPropertyNameFromFullname(name);
 					proxyProperties[prop] = controllerSymbol + '.getProxyPropertyEx("' + prop + '", {recurse:true})';
@@ -105,10 +105,10 @@ function parse(node, state, args) {
 	// add all creation time properties to the state
 	if (node.hasAttribute('clearOnEdit')) {
 		var attr = node.getAttribute('clearOnEdit');
-		extras.push(['clearOnEdit', attr === 'true']);
+		extras.push([ 'clearOnEdit', attr === 'true' ]);
 	}
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 	if (extras.length) { state.extraStyle = styler.createVariableStyle(extras); }
 
@@ -118,7 +118,7 @@ function parse(node, state, args) {
 		if (U.isLocaleAlias(nodeText)) {
 			state.extraStyle['value'] = styler.STYLE_EXPR_PREFIX + nodeText;
 		} else {
-			_.extend(state.extraStyle, styler.createVariableStyle('value', U.possibleMultilineString(U.trim(nodeText.replace(/'/g, "\\'")))));
+			_.extend(state.extraStyle, styler.createVariableStyle('value', U.possibleMultilineString(U.trim(nodeText.replace(/'/g, '\\\'')))));
 		}
 	}
 

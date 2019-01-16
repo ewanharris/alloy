@@ -4,7 +4,7 @@ var path = require('path'),
 	U = require('../../../utils'),
 	alloyRoot = path.join(__dirname, '..', '..', '..');
 
-module.exports = function(name, args, program) {
+module.exports = function (name, args, program) {
 	var filename = 'alloy.jmk';
 	var filepath = path.join(program.projectDir, 'app', filename);
 	var templatePath = path.join(alloyRoot, 'template', filename);

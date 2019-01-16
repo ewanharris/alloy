@@ -5,7 +5,7 @@ var U = require('../../../utils'),
 
 var MIN_VERSION = '5.4.0';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 

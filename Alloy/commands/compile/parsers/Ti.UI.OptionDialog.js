@@ -1,11 +1,11 @@
 var _ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	state = _.extend(state, {
 		itemContainerDefinition: {
 			children: [
-				{ name:'Alloy.Abstract.ButtonNames', property:'buttonNames' },
-				{ name:'Alloy.Abstract.Options', property:'options' }
+				{ name: 'Alloy.Abstract.ButtonNames', property: 'buttonNames' },
+				{ name: 'Alloy.Abstract.Options', property: 'options' }
 			],
 			androidView: true,
 			inViewHierarchy: false

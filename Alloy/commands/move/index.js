@@ -15,7 +15,7 @@ function move(source, destination, callback) {
 	}
 
 	var code = fs.readFileSync(source, 'utf8');
-	fs.writeFile(destination, code, function(err) {
+	fs.writeFile(destination, code, function (err) {
 		if (err) {
 			callback(err);
 		}
@@ -30,7 +30,7 @@ function cleanup(args) {
 
 	files = walkSync(args.path);
 	if (files.length === 0) {
-		fs.rmdir(args.path, function(err) {
+		fs.rmdir(args.path, function (err) {
 			if (err) {
 				logger.error('Failed to remove the empty directory. Please manually remove ' + args.path.cyan);
 			} else {
@@ -47,7 +47,7 @@ function cleanup(args) {
 	}
 }
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	args = args || [];
 	program = program || {};
 
@@ -106,8 +106,8 @@ module.exports = function(args, program) {
 		U.die(logs.join('\n'));
 	}
 
-	if (!program.force &&
-		(controller.exists.destination || view.exists.destination || style.exists.destination)) {
+	if (!program.force
+		&& (controller.exists.destination || view.exists.destination || style.exists.destination)) {
 		logs = [
 			'destination files already exist'
 		];
@@ -118,7 +118,7 @@ module.exports = function(args, program) {
 	}
 
 	if (controller.exists.source) {
-		move(controller.source, controller.destination, function(err) {
+		move(controller.source, controller.destination, function (err) {
 			if (err) {
 				logger.error('move failed view-style-controller ' + controller.source.cyan + ' -> ' + controller.destination.cyan);
 			} else {
@@ -132,7 +132,7 @@ module.exports = function(args, program) {
 	}
 
 	if (view.exists.source) {
-		move(view.source, view.destination, function(err) {
+		move(view.source, view.destination, function (err) {
 			if (err) {
 				logger.error('move failed view ' + view.source.cyan + ' -> ' + view.destination.cyan);
 			} else {
@@ -146,7 +146,7 @@ module.exports = function(args, program) {
 	}
 
 	if (style.exists.source) {
-		move(style.source, style.destination, function(err) {
+		move(style.source, style.destination, function (err) {
 			if (err) {
 				logger.error('move failed style ' + style.source.cyan + ' -> ' + style.destination.cyan);
 			} else {

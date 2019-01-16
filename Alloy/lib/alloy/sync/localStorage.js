@@ -74,14 +74,12 @@ function Sync(method, model, opts) {
 	if (resp) {
 		if (_.isFunction(opts.success)) { opts.success(resp); }
 		if (method === 'read') { model.trigger('fetch'); }
-	} else {
-		if (_.isFunction(opts.error)) { opts.error(resp); }
-	}
+	} else if (_.isFunction(opts.error)) { opts.error(resp); }
 }
 
 module.exports.sync = Sync;
 
-module.exports.beforeModelCreate = function(config) {
+module.exports.beforeModelCreate = function (config) {
 	config = config || {};
 
 	config.data = {}; // for localStorage or case where entire collection is needed to maintain store
@@ -91,7 +89,7 @@ module.exports.beforeModelCreate = function(config) {
 	return config;
 };
 
-module.exports.afterModelCreate = function(Model) {
+module.exports.afterModelCreate = function (Model) {
 	Model = Model || {};
 
 	Model.prototype.config.Model = Model; // needed for fetch operations to initialize the collection from persistent store

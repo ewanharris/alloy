@@ -1,7 +1,7 @@
 var U = require('../../../utils'),
 	CU = require('../compilerUtils');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 

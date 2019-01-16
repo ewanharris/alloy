@@ -15,7 +15,7 @@
  * @param {String} line String to trim.
  * @return {String} String without leading and trailing white space.
  */
-exports.trim = function(line) {
+exports.trim = function (line) {
 	return String(line).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 };
 
@@ -27,8 +27,7 @@ exports.trim = function(line) {
  */
 exports.trimZeros = function (num) {
 	var str = (num || '0') + '';
-	if (str.indexOf('.') === -1)
-		return str;
+	if (str.indexOf('.') === -1) { return str; }
 	return str.replace(/\.?0*$/, '');
 };
 
@@ -39,8 +38,7 @@ exports.trimZeros = function (num) {
  * @return {String} String with first character capitalized.
  */
 exports.ucfirst = function (text) {
-	if (!text)
-		return text;
+	if (!text) { return text; }
 	return text[0].toUpperCase() + text.substr(1);
 };
 
@@ -51,8 +49,7 @@ exports.ucfirst = function (text) {
  * @return {String} String with first character lowercased.
  */
 exports.lcfirst = function (text) {
-	if (!text)
-		return text;
+	if (!text) { return text; }
 	return text[0].toLowerCase() + text.substr(1);
 };
 
@@ -68,7 +65,6 @@ exports.formatCurrency = !(OS_MOBILEWEB) ? String.formatCurrency : function (amo
 	var num = isNaN(amount) || amount === '' || amount === null ? 0.00 : amount;
 	return '$' + parseFloat(num).toFixed(2);
 };
-
 
 /**
  * @method urlDecode

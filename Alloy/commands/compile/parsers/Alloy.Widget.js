@@ -1,4 +1,4 @@
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 
 	if (!node.getAttribute('src') && state.widgetId) {
 		node.setAttribute('src', state.widgetId);

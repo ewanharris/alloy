@@ -24,21 +24,21 @@ function generate(args, program) {
 	// make sure we have a valid project path
 	var paths = U.getAndValidateProjectPaths(
 		program.projectDir || program.outputPath || process.cwd(),
-		{command : CONST.COMMANDS.GENERATE}
+		{ command: CONST.COMMANDS.GENERATE }
 	);
 	program.projectDir = program.outputPath = paths.project;
 
 	// grab the name
-	if (!name && target !== 'jmk' &&
-		!(target === 'style' && program.all)) {
+	if (!name && target !== 'jmk'
+		&& !(target === 'style' && program.all)) {
 		U.die('generate requires a NAME such as third argument');
 	}
 
 	// validate the generate target
 	if (!_.includes(CONST.GENERATE_TARGETS, target)) {
 		U.die(
-			'Invalid generate target "' + target + '"\n' +
-			'Must be one of the following: [' + CONST.GENERATE_TARGETS.join(',') + ']'
+			'Invalid generate target "' + target + '"\n'
+			+ 'Must be one of the following: [' + CONST.GENERATE_TARGETS.join(',') + ']'
 		);
 	}
 

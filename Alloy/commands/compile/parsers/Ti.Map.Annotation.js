@@ -2,16 +2,16 @@ var styler = require('../styler'),
 	CU = require('../compilerUtils'),
 	_ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
 	var extraStyle = [];
-	_.each(['latitude', 'longitude'], function(attr) {
+	_.each([ 'latitude', 'longitude' ], function (attr) {
 		var geo = node.getAttribute(attr);
 		if (geo) {
-			extraStyle.push([attr, parseFloat(geo)]);
+			extraStyle.push([ attr, parseFloat(geo) ]);
 			node.removeAttribute(attr);
 		}
 	});

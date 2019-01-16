@@ -6,9 +6,9 @@ var path = require('path'),
 	styler = require('../styler'),
 	CONST = require('../../../common/constants'),
 	moduleRoot = path.join(__dirname, '..', '..', '..', '..'),
-	TYPES = ['view', 'widget'];
+	TYPES = [ 'view', 'widget' ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -43,8 +43,8 @@ function parse(node, state, args) {
 			break;
 		case 'widget':
 			method = 'createWidget';
-			extraArgs = "'" + name + "',";
-			U.getWidgetDirectories(appPath).forEach(function(wDir) {
+			extraArgs = '\'' + name + '\',';
+			U.getWidgetDirectories(appPath).forEach(function (wDir) {
 				if (wDir.manifest.id === src) {
 					if (platform) {
 						paths.push(path.join(wDir.dir, CONST.DIR.VIEW, platform, name));
@@ -72,8 +72,8 @@ function parse(node, state, args) {
 	// abort if there's no view to be found
 	if (!found) {
 		U.die([
-			type + ' "' + src + '" ' + (type === 'widget' ? 'view "' + name + '" ' : '') +
-				'does not exist.',
+			type + ' "' + src + '" ' + (type === 'widget' ? 'view "' + name + '" ' : '')
+				+ 'does not exist.',
 			'The following paths were inspected:'
 		].concat(paths));
 	}
@@ -91,12 +91,12 @@ function parse(node, state, args) {
 	// process the children, if any
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		xChildren = [];
-	_.each(children, function(child) {
+	_.each(children, function (child) {
 		if (!CU.isNodeForCurrentPlatform(child)) { return; }
 		var childArgs = CU.getParserArgs(child);
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				if (state.parent.symbol) {
 					xChildren.push(state.parent.symbol);
 				}
@@ -120,15 +120,15 @@ function parse(node, state, args) {
 	args.createArgs = _.extend(args.createArgs || {}, xArgs);
 
 	// Generate runtime code
-	code += (state.local ? 'var ' : '') + args.symbol + ' = Alloy.' + method + "('" + src +
-		"'," + extraArgs + styler.generateStyleParams(
-			state.styles,
-			args.classes,
-			args.id,
-			type === 'widget' ? 'Alloy.Widget' : 'Alloy.Require',
-			args.createArgs,
-			state
-		) + ');\n';
+	code += (state.local ? 'var ' : '') + args.symbol + ' = Alloy.' + method + '(\'' + src
+		+ '\',' + extraArgs + styler.generateStyleParams(
+		state.styles,
+		args.classes,
+		args.id,
+		type === 'widget' ? 'Alloy.Widget' : 'Alloy.Require',
+		args.createArgs,
+		state
+	) + ');\n';
 	if (args.parent.symbol && !state.templateObject && !state.androidMenu) {
 		code += args.symbol + '.setParent(' + args.parent.symbol + ');\n';
 	}

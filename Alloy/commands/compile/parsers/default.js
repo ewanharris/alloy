@@ -6,7 +6,7 @@ var CU = require('../compilerUtils'),
 	tiapp = require('../../../tiapp'),
 	platform = CU.getCompilerConfig().alloyConfig.platform;
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -16,7 +16,7 @@ function parse(node, state, args) {
 		extras = [];
 
 	if (node.previewContext) {
-		extras.push(['previewContext', node.previewContext]);
+		extras.push([ 'previewContext', node.previewContext ]);
 	}
 
 	if (CU[CONST.DOCROOT_MODULE_PROPERTY] && !node.hasAttribute('module')) {
@@ -30,7 +30,7 @@ function parse(node, state, args) {
 	// special handling for touchEnabled per ALOY-911
 	if (node.hasAttribute('touchEnabled')) {
 		var attr = node.getAttribute('touchEnabled');
-		extras.push(['touchEnabled', attr === 'true']);
+		extras.push([ 'touchEnabled', attr === 'true' ]);
 	}
 
 	if (extras.length) {
@@ -40,9 +40,9 @@ function parse(node, state, args) {
 
 	// start assembling a basic view creation
 	var createFunc = 'create' + node.nodeName,
-		isCollectionBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isCollectionBound = !!args[CONST.BIND_COLLECTION],
 		code = '';
-	if (node.nodeName === 'Annotation' && ( (platform == 'ios' && tiapp.version.gte('3.2.0')) || platform == 'android' && tiapp.version.gte('3.1.0'))) {
+	if (node.nodeName === 'Annotation' && ((platform == 'ios' && tiapp.version.gte('3.2.0')) || platform == 'android' && tiapp.version.gte('3.1.0'))) {
 		// ALOY-800: on iOS & Android, using the external ti.map module, set the
 		// namespace so that the ti.map module's createAnnotation() method is used
 		args.ns = 'require("ti.map")';
@@ -57,9 +57,9 @@ function parse(node, state, args) {
 	if (state.isViewTemplate) {
 		var bindId = node.getAttribute('bindId');
 		code += (state.local ? 'var ' : '') + args.symbol + '={';
-		code += "type:'" + fullname + "',";
+		code += 'type:\'' + fullname + '\',';
 		if (bindId) {
-			code += "bindId:'" + bindId + "',";
+			code += 'bindId:\'' + bindId + '\',';
 		}
 
 		// apply usual style properties
@@ -76,7 +76,7 @@ function parse(node, state, args) {
 
 		// add in any events on the ItemTemplate
 		if (args.events && args.events.length > 0) {
-			argsObject.events = '{' + _.reduce(args.events, function(memo, o) {
+			argsObject.events = '{' + _.reduce(args.events, function (memo, o) {
 				return memo + o.name + ':' + o.value + ',';
 			}, '') + '}';
 		}
@@ -89,12 +89,12 @@ function parse(node, state, args) {
 			code += 'childTemplates: (function() {';
 			code += 'var ' + childTemplates + '=[];';
 
-			_.each(children, function(child) {
+			_.each(children, function (child) {
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
 					local: true,
 					isViewTemplate: true,
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						return childTemplates + '.push(' + state.item.symbol + ');';
 					}
 				});
@@ -105,7 +105,7 @@ function parse(node, state, args) {
 		}
 
 		// add the additional arguments to the code
-		code += _.reduce(argsObject, function(memo, v, k) {
+		code += _.reduce(argsObject, function (memo, v, k) {
 			return memo + k + ':' + v + ',';
 		}, '');
 
@@ -124,7 +124,6 @@ function parse(node, state, args) {
 				state
 			) + '\n';
 			code += ');\n';
-
 
 			delete args.createArgs['module'];
 			delete args.createArgs['method'];
@@ -149,7 +148,7 @@ function parse(node, state, args) {
 			var localModel = CU.generateUniqueId();
 			var itemCode = '';
 
-			_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+			_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 				itemCode += CU.generateNodeExtended(child, state, {
 					parent: {
 						node: node,
@@ -160,10 +159,10 @@ function parse(node, state, args) {
 				});
 			});
 
-			var pre = 'var children = ' + args.symbol + '.children;' +
-				'for (var d = children.length-1; d >= 0; d--) {' +
-				'	' + args.symbol + '.remove(children[d]);' +
-				'}';
+			var pre = 'var children = ' + args.symbol + '.children;'
+				+ 'for (var d = children.length-1; d >= 0; d--) {'
+				+ '	' + args.symbol + '.remove(children[d]);'
+				+ '}';
 
 			if (state.parentFormFactor || node.hasAttribute('formFactor')) {
 				// if this node or a parent has set the formFactor attribute

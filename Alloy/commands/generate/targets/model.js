@@ -7,7 +7,7 @@ var path = require('path'),
 
 var ALLOY_ROOT = path.join(__dirname, '..', '..', '..'),
 	MODEL_TEMPLATE = path.join(ALLOY_ROOT, 'template', 'modelcode.js'),
-	VALID_ADAPTERS = ['sql', 'properties', 'localStorage'],
+	VALID_ADAPTERS = [ 'sql', 'properties', 'localStorage' ],
 	USAGE = [
 		'Usage:',
 		'	alloy generate model NAME TYPE COLUMN1:TYPE COLUMN2:TYPE ...',
@@ -16,14 +16,14 @@ var ALLOY_ROOT = path.join(__dirname, '..', '..', '..'),
 		'	alloy generate model appState properties loggedIn:Bool items:List'
 	];
 
-module.exports = function(name, args, program) {
+module.exports = function (name, args, program) {
 	// validate project
 	var paths = U.getAndValidateProjectPaths(program.outputPath || program.projectDir);
 
 	// validate the list of arguments
 	var adapter;
 	if (args.length === 0) {
-		U.die(['`alloy generate model` requires a type and list of columns', USAGE]);
+		U.die([ '`alloy generate model` requires a type and list of columns', USAGE ]);
 	} else {
 		adapter = args[0];
 		if (!_.includes(VALID_ADAPTERS, adapter)) {
@@ -37,7 +37,7 @@ module.exports = function(name, args, program) {
 
 	// create array of columns
 	var columns = {};
-	_.each(args.slice(1), function(pair) {
+	_.each(args.slice(1), function (pair) {
 		var parts = pair.split(':');
 		if (parts.length !== 2) {
 			U.die([
@@ -67,7 +67,7 @@ module.exports = function(name, args, program) {
 function prepareColumnsForWriting(columns) {
 	var pretty = 'columns: ' + JSON.stringify(columns, null, 4) + ',\n';
 	var output = [];
-	_.each(pretty.split('\n'), function(line) {
+	_.each(pretty.split('\n'), function (line) {
 		if (line === '' || /^\s+$/.test(line)) {
 			return; // skip empty line
 		}

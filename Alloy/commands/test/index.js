@@ -10,7 +10,7 @@ var fs = require('fs'),
 var ALLOY_ROOT = path.join(__dirname, '../../..');
 var JAKE = path.join(ALLOY_ROOT, 'node_modules', '.bin', 'jake');
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	logger.error('"alloy test" is not yet implemented');
 
 	// make sure jake dependency is present

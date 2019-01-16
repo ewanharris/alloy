@@ -8,25 +8,25 @@ var ROWS = [
 	'Ti.UI.PickerRow'
 ];
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
-	var isDataBound = args[CONST.BIND_COLLECTION] ? true : false,
+	var isDataBound = !!args[CONST.BIND_COLLECTION],
 		localModel,
 		rowCode = '';
 
 	// generate the code for the table itself
 	if (isDataBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
 	var code = require('./default').parse(node, state).code;
 
 	// iterate through all children
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var theNode = CU.validateNodeName(child, ROWS),
 			isControllerNode = _.includes(CONST.CONTROLLER_NODES, CU.getNodeFullname(child));
 
@@ -45,7 +45,7 @@ function parse(node, state, args) {
 			rowCode += CU.generateNodeExtended(child, state, {
 				parent: {},
 				model: localModel,
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					return 'rows.push(' + state.parent.symbol + ');\n';
 				}
 			});
@@ -55,7 +55,7 @@ function parse(node, state, args) {
 			// generate the code for each row and add it to the array
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, a) {
+				post: function (node, state, a) {
 					return args.symbol + '.addRow(' + state.parent.symbol + ');\n';
 				}
 			});

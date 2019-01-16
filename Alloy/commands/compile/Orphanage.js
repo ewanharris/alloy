@@ -33,13 +33,13 @@ function Orphanage(projectDir, _platform, opts) {
 	};
 
 	// get widgets in use
-	_.each(U.getWidgetDirectories(dirs.app) || [], function(wObj) {
+	_.each(U.getWidgetDirectories(dirs.app) || [], function (wObj) {
 		widgetsInUse[path.basename(wObj.dir)] = wObj.dir;
 	});
 }
 module.exports = Orphanage;
 
-Orphanage.prototype.clean = function() {
+Orphanage.prototype.clean = function () {
 	var that = this;
 
 	// Clean the base app folder
@@ -52,7 +52,7 @@ Orphanage.prototype.clean = function() {
 	// Clean out each widget
 	var widgets = path.join(dirs.runtime, CONST.DIR.WIDGET);
 	if (fs.existsSync(widgets)) {
-		_.each(fs.readdirSync(widgets), function(file) {
+		_.each(fs.readdirSync(widgets), function (file) {
 			if (!widgetsInUse[file]) {
 				that.removeAll({ widgetId: file });
 			}
@@ -65,7 +65,7 @@ Orphanage.prototype.clean = function() {
 };
 
 // TODO: handle specs
-Orphanage.prototype.removeAll = function(opts) {
+Orphanage.prototype.removeAll = function (opts) {
 	opts = opts || {};
 
 	if (!opts.widgetId) {
@@ -82,20 +82,20 @@ Orphanage.prototype.removeAll = function(opts) {
 	}
 };
 
-Orphanage.prototype.removeAdapters = function(opts) {
+Orphanage.prototype.removeAdapters = function (opts) {
 	opts = _.clone(opts || {});
 	var paths = [
 		path.join('alloy', 'sync'),
 		path.join(titaniumFolder, 'alloy', 'sync')
 	];
 
-	_.each(paths, function(p) {
+	_.each(paths, function (p) {
 		var adapterDir = path.join(dirs.resources, p);
 		if (!fs.existsSync(adapterDir)) {
 			return;
 		}
 
-		_.each(fs.readdirSync(adapterDir), function(adapterFile) {
+		_.each(fs.readdirSync(adapterDir), function (adapterFile) {
 			var fullpath = path.join(adapterDir, adapterFile);
 			var adapterName = adapterFile.replace(/\.js$/, '');
 			if (!_.includes(adapters, adapterName) && fs.statSync(fullpath).isFile()) {
@@ -106,16 +106,16 @@ Orphanage.prototype.removeAdapters = function(opts) {
 	});
 };
 
-Orphanage.prototype.removeControllers = function(opts) {
+Orphanage.prototype.removeControllers = function (opts) {
 	opts = _.clone(opts || {});
 	remove(_.extend(opts, {
 		folder: CONST.DIR.CONTROLLER,
-		types: ['CONTROLLER', 'VIEW'],
-		exceptions: ['BaseController.js']
+		types: [ 'CONTROLLER', 'VIEW' ],
+		exceptions: [ 'BaseController.js' ]
 	}));
 };
 
-Orphanage.prototype.removeModels = function(opts) {
+Orphanage.prototype.removeModels = function (opts) {
 	opts = _.clone(opts || {});
 	remove(_.extend(opts, {
 		folder: CONST.DIR.MODEL,
@@ -123,15 +123,15 @@ Orphanage.prototype.removeModels = function(opts) {
 	}));
 };
 
-Orphanage.prototype.removeStyles = function(opts) {
+Orphanage.prototype.removeStyles = function (opts) {
 	opts = _.clone(opts || {});
 	remove(_.extend(opts, {
 		folder: CONST.DIR.STYLE,
-		types: ['CONTROLLER', 'VIEW']
+		types: [ 'CONTROLLER', 'VIEW' ]
 	}));
 };
 
-Orphanage.prototype.removeAssets = function() {
+Orphanage.prototype.removeAssets = function () {
 	var baseLocations = [
 		CONST.DIR.ASSETS,
 		path.join(CONST.DIR.ASSETS, platforms[platform].titaniumFolder),
@@ -141,7 +141,7 @@ Orphanage.prototype.removeAssets = function() {
 	var locations = [];
 
 	// Add the base locations
-	_.each(baseLocations, function(loc) {
+	_.each(baseLocations, function (loc) {
 		var newLoc = path.join(dirs.app, loc);
 		if (fs.existsSync(newLoc)) {
 			locations.push(newLoc);
@@ -149,8 +149,8 @@ Orphanage.prototype.removeAssets = function() {
 	});
 
 	// Make sure we check the widgets paths as well
-	_.each(widgetsInUse, function(wDir, wId) {
-		_.each(baseLocations, function(loc) {
+	_.each(widgetsInUse, function (wDir, wId) {
+		_.each(baseLocations, function (loc) {
 			var widgetLoc = path.join(wDir, loc);
 			if (fs.existsSync(widgetLoc)) {
 				locations.push(widgetLoc);
@@ -175,13 +175,13 @@ Orphanage.prototype.removeAssets = function() {
 	];
 
 	// check the current platform as well
-	_.each(_.clone(exceptions), function(ex) {
+	_.each(_.clone(exceptions), function (ex) {
 		exceptions.push(path.join(platforms[platform].titaniumFolder, ex));
 	});
 
 	// don't worry about cleaning platforms that aren't the current target
 	_.each(_.without(_.map(platforms, 'titaniumFolder'), platforms[platform].titaniumFolder),
-		function(tf) {
+		function (tf) {
 			exceptions.unshift(tf + '*');
 		}
 	);
@@ -193,7 +193,7 @@ Orphanage.prototype.removeAssets = function() {
 	});
 };
 
-Orphanage.prototype.removeWidget = function(opts) {
+Orphanage.prototype.removeWidget = function (opts) {
 	if (opts.widgetId === '.DS_Store') { return; }
 	opts.runtimePath = path.join(dirs.runtime, CONST.DIR.WIDGET, opts.widgetId);
 	remove(opts);
@@ -211,7 +211,7 @@ function getChecks(file, fullpath, opts) {
 
 	// Check all the app folder file types
 	if (opts.types) {
-		_.each(opts.types, function(type) {
+		_.each(opts.types, function (type) {
 			var dir = CONST.DIR[type];
 
 			// use type-specific extension if it's not a directory
@@ -258,7 +258,7 @@ function getChecks(file, fullpath, opts) {
 		}
 
 		// No widget? Just use the given locations.
-		_.each(opts.locations, function(loc) {
+		_.each(opts.locations, function (loc) {
 			checks.push(path.join(loc, file));
 		});
 	}
@@ -267,7 +267,8 @@ function getChecks(file, fullpath, opts) {
 }
 
 function isException(file, exceptions) {
-	var ex, exs = [];
+	var ex,
+		exs = [];
 	exceptions = exceptions || [];
 
 	for (var i = 0; i < exceptions.length; i++) {
@@ -298,8 +299,8 @@ function remove(opts) {
 	opts = opts || {};
 	var folder = opts.folder;
 	var exceptions = opts.exceptions || [];
-	var types = _.isString(opts.types) ? [opts.types] : opts.types;
-	var locations = _.isString(opts.locations) ? [opts.locations] : opts.locations;
+	var types = _.isString(opts.types) ? [ opts.types ] : opts.types;
+	var locations = _.isString(opts.locations) ? [ opts.locations ] : opts.locations;
 	var runtimePath = opts.runtimePath;
 
 	// Set the base runtime search path
@@ -309,12 +310,10 @@ function remove(opts) {
 				'You must specify either "runtimePath" or "folder" when calling Orphanage.remove()',
 				new Error().stack
 			]);
+		} else if (opts.widgetId) {
+			runtimePath = path.join(dirs.runtime, CONST.DIR.WIDGET, opts.widgetId, folder);
 		} else {
-			if (opts.widgetId) {
-				runtimePath = path.join(dirs.runtime, CONST.DIR.WIDGET, opts.widgetId, folder);
-			} else {
-				runtimePath = path.join(dirs.runtime, folder);
-			}
+			runtimePath = path.join(dirs.runtime, folder);
 		}
 	}
 
@@ -324,14 +323,14 @@ function remove(opts) {
 	}
 
 	// Let's see if we need to delete any orphan files...
-	_.each(walkSync(runtimePath), function(file) {
+	_.each(walkSync(runtimePath), function (file) {
 		var runtimeFullpath = path.join(runtimePath, file);
 		var found = false;
 		var checks, i;
 
 		// skip if file no longer exists, or if it's an exception
-		if (!fs.existsSync(runtimeFullpath) ||
-			(/*!opts.widgetId && */ isException(file, exceptions))) {
+		if (!fs.existsSync(runtimeFullpath)
+			|| (/* !opts.widgetId && */ isException(file, exceptions))) {
 			return;
 		}
 

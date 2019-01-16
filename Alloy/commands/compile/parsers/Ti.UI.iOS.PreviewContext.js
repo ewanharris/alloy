@@ -3,7 +3,7 @@ var _ = require('lodash'),
 	CU = require('../compilerUtils'),
 	U = require('../../../utils');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -15,7 +15,7 @@ function parse(node, state, args) {
 		previewContextState,
 		extraStyle = [];
 
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 
 		if (child.nodeName === 'Actions') {
 			state.itemsArray = CU.generateUniqueId();
@@ -24,7 +24,7 @@ function parse(node, state, args) {
 
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				if (child.nodeName === 'Preview') {
 					preview = state.parent.proxyProperty;
 				}
@@ -38,8 +38,8 @@ function parse(node, state, args) {
 		delete args.parent.symbol;
 	}
 
-	preview && extraStyle.push(['preview', preview]);
-	actions && extraStyle.push(['actions', actions]);
+	preview && extraStyle.push([ 'preview', preview ]);
+	actions && extraStyle.push([ 'actions', actions ]);
 	if (extraStyle.length) {
 		state.extraStyle = styler.createVariableStyle(extraStyle);
 	}

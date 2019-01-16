@@ -12,13 +12,13 @@ var tiapp = {},
 	tiappFile, doc;
 
 // initialize the project folder
-tiapp.init = function(file) {
+tiapp.init = function (file) {
 	tiappFile = file || DEFAULT_TIAPP;
 	doc = tiapp.parse(tiappFile);
 };
 
 // Return an XML document object representing the tiapp.xml file
-tiapp.parse = function(file) {
+tiapp.parse = function (file) {
 	file = file || tiappFile;
 	if (!fs.existsSync(file)) {
 		U.die('tiapp.xml file does not exist at "' + file + '"');
@@ -28,16 +28,14 @@ tiapp.parse = function(file) {
 
 // Get the Titanium SDK version as a string
 // Get the Titanium SDK version as a string
-tiapp.getSdkVersion = function() {
+tiapp.getSdkVersion = function () {
 	var elems = doc.documentElement.getElementsByTagName('sdk-version');
 	if (elems && elems.length > 0) {
 		return U.XML.getNodeText(elems.item(elems.length - 1));
+	} else if (process.env.sdk) {
+		return process.env.sdk;
 	} else {
-		if (process.env.sdk) {
-			return process.env.sdk;
-		} else {
-			return getSdkSelectVersion();
-		}
+		return getSdkSelectVersion();
 	}
 };
 function getSdkSelectVersion() {
@@ -46,12 +44,12 @@ function getSdkSelectVersion() {
 	if (!fs.existsSync(file)) {
 		U.die('Titanium configuration file does not exist at "' + file + '"');
 	}
-	var ticonfig = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
+	var ticonfig = JSON.parse(fs.readFileSync(file, { encoding: 'utf8' }));
 	return ticonfig.sdk.selected;
 }
 
 // Get the value of a property from the tiapp.xml
-tiapp.getProperty = function(name) {
+tiapp.getProperty = function (name) {
 	var props = doc.documentElement.getElementsByTagName('property');
 	for (var i = 0; i < props.length; i++) {
 		if (props.item(i).getAttribute('name') === name) {
@@ -62,24 +60,24 @@ tiapp.getProperty = function(name) {
 };
 
 // Add a module to the tiapp.xml
-tiapp.installModule = function(opts) {
+tiapp.installModule = function (opts) {
 	install('module', opts);
 };
 
 // Add a plugin to the tiapp.xml
-tiapp.installPlugin = function(opts) {
+tiapp.installPlugin = function (opts) {
 	install('plugin', opts);
 };
 
 // make sure the target TiSDK version meets the minimum for Alloy
-tiapp.validateSdkVersion = function() {
+tiapp.validateSdkVersion = function () {
 	var tiVersion = tiapp.getSdkVersion();
 	if (tiVersion === null) {
 		logger.warn('Unable to determine Titanium SDK version from tiapp.xml.');
 		logger.warn('Your app may have unexpected behavior. Make sure your tiapp.xml is valid.');
 	} else if (tiapp.version.lt(tiVersion, CONST.MINIMUM_TI_SDK)) {
-		logger.error('Alloy ' + pkg.version + ' requires Titanium SDK ' +
-			CONST.MINIMUM_TI_SDK + ' or higher.');
+		logger.error('Alloy ' + pkg.version + ' requires Titanium SDK '
+			+ CONST.MINIMUM_TI_SDK + ' or higher.');
 		logger.error('"' + tiVersion + '" was found in the "sdk-version" field of your tiapp.xml.');
 		logger.error('If you are building with the legacy titanium.py script and are specifying ');
 		logger.error('an SDK version as a CLI argument that is different than the one in your ');
@@ -90,7 +88,7 @@ tiapp.validateSdkVersion = function() {
 
 // version comparison functions
 tiapp.version = {
-	compare: function(v1, v2) {
+	compare: function (v1, v2) {
 		// use the tiapp.xml version if v2 is not specified
 		if (typeof v2 === 'undefined') {
 			v2 = v1;
@@ -112,15 +110,15 @@ tiapp.version = {
 
 		return 0;
 	},
-	eq: function(v1, v2) { return tiapp.version.compare(v1, v2) === 0; },
-	gt: function(v1, v2) { return tiapp.version.compare(v1, v2) === 1; },
-	gte: function(v1, v2) { return tiapp.version.compare(v1, v2) !== -1; },
-	lt: function(v1, v2) { return tiapp.version.compare(v1, v2) === -1; },
-	lte: function(v1, v2) { return tiapp.version.compare(v1, v2) !== 1; },
-	neq: function(v1, v2) { return tiapp.version.compare(v1, v2) !== 0; }
+	eq: function (v1, v2) { return tiapp.version.compare(v1, v2) === 0; },
+	gt: function (v1, v2) { return tiapp.version.compare(v1, v2) === 1; },
+	gte: function (v1, v2) { return tiapp.version.compare(v1, v2) !== -1; },
+	lt: function (v1, v2) { return tiapp.version.compare(v1, v2) === -1; },
+	lte: function (v1, v2) { return tiapp.version.compare(v1, v2) !== 1; },
+	neq: function (v1, v2) { return tiapp.version.compare(v1, v2) !== 0; }
 };
 
-tiapp.getDeploymentTargets = function() {
+tiapp.getDeploymentTargets = function () {
 	var deployment = doc.documentElement.getElementsByTagName('deployment-targets'),
 		results = [];
 
@@ -147,8 +145,8 @@ function install(type, opts) {
 	type = type || 'module';
 	opts = opts || {};
 
-	var err = 'Project creation failed. Unable to install ' + type + ' "' +
-		(opts.name || opts.id) + '"';
+	var err = 'Project creation failed. Unable to install ' + type + ' "'
+		+ (opts.name || opts.id) + '"';
 
 	// read the tiapp.xml file
 	var collection = doc.documentElement.getElementsByTagName(type + 's');

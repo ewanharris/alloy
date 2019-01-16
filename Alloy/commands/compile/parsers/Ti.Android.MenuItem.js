@@ -4,7 +4,7 @@ var CU = require('../compilerUtils'),
 	styler = require('../styler'),
 	_ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -15,7 +15,7 @@ function parse(node, state, args) {
 		id,
 		newCode;
 
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		// process children, of which only ActionView is supported
 		var childArgs = CU.getParserArgs(child, state);
 		var parts = CU.getNodeFullname(child).split('.');

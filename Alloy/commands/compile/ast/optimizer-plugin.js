@@ -13,19 +13,19 @@ module.exports = function (_ref) {
 	var isTitaniumPlatform = types.buildMatchMemberExpression('Titanium.Platform');
 
 	return {
-		pre: function(state) {
+		pre: function (state) {
 			var config = this.opts || {};
 			config.deploytype = config.deploytype || 'development';
 
 			// create list of platform and deploy type defines
 			var defines = {};
-			_.each(CONST.DEPLOY_TYPES, function(d) {
+			_.each(CONST.DEPLOY_TYPES, function (d) {
 				defines[d.key] = config.deploytype === d.value;
 			});
-			_.each(CONST.DIST_TYPES, function(d) {
+			_.each(CONST.DIST_TYPES, function (d) {
 				defines[d.key] = _.includes(d.value, config.target);
 			});
-			_.each(CONST.PLATFORMS, function(p) {
+			_.each(CONST.PLATFORMS, function (p) {
 				defines['OS_' + p.toUpperCase()] = config.platform === p;
 			});
 			this.defines = defines;
@@ -34,7 +34,7 @@ module.exports = function (_ref) {
 			var platformString = config.platform.toLowerCase();
 			var platformPath = path.join(__dirname, '..', '..', '..', '..', 'platforms', platformString, 'index');
 			if (!fs.existsSync(platformPath + '.js')) {
-				this.platform = {name: undefined, osname: undefined };
+				this.platform = { name: undefined, osname: undefined };
 			} else {
 				// create, transform, and validate the platform object
 				this.platform = require(platformPath);
@@ -43,7 +43,7 @@ module.exports = function (_ref) {
 			}
 		},
 		visitor: {
-			MemberExpression: function(path, state) {
+			MemberExpression: function (path, state) {
 				// console.log(JSON.stringify(path.node));
 				var name = '';
 				if (types.isStringLiteral(path.node.property)) {
@@ -60,9 +60,9 @@ module.exports = function (_ref) {
 					}
 				}
 			},
-			Identifier: function(path) {
-				if (this.defines.hasOwnProperty(path.node.name) &&
-					(path.parent.type !== 'VariableDeclarator' || path.node.name !== path.parent.id.name)) {
+			Identifier: function (path) {
+				if (this.defines.hasOwnProperty(path.node.name)
+					&& (path.parent.type !== 'VariableDeclarator' || path.node.name !== path.parent.id.name)) {
 					path.replaceWith(types.booleanLiteral(this.defines[path.node.name]));
 				}
 			}

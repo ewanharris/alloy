@@ -12,7 +12,7 @@ function fixDefinition(def) {
 	return def;
 }
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -29,7 +29,7 @@ function parse(node, state, args) {
 	}
 
 	// process children
-	_.each(U.XML.getElementsFromNodes(node.childNodes), function(child) {
+	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		var childArgs = CU.getParserArgs(child, state);
 
 		// validate children
@@ -42,7 +42,7 @@ function parse(node, state, args) {
 		// generate proxy property
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				proxy = state.parent ? state.parent.symbol : state.item.symbol;
 			}
 		});

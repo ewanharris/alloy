@@ -12,7 +12,7 @@ function cleanup(args) {
 
 	files = walkSync(args.path);
 	if (files.length === 0) {
-		fs.rmdir(args.path, function(err) {
+		fs.rmdir(args.path, function (err) {
 			if (err) {
 				logger.error('Failed to remove the empty directory. Please manually remove ' + args.path.cyan);
 			} else {
@@ -29,7 +29,7 @@ function cleanup(args) {
 	}
 }
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	args = args || [];
 	program = program || {};
 
@@ -78,7 +78,7 @@ module.exports = function(args, program) {
 	}
 
 	if (controller.exists.source) {
-		fs.unlink(controller.source, function(err) {
+		fs.unlink(controller.source, function (err) {
 			if (err) {
 				logger.error('remove failed view-style-controller ' + controller.source.cyan);
 			} else {
@@ -92,7 +92,7 @@ module.exports = function(args, program) {
 	}
 
 	if (view.exists.source) {
-		fs.unlink(view.source, function(err) {
+		fs.unlink(view.source, function (err) {
 			if (err) {
 				logger.error('remove failed view ' + view.source.cyan);
 			} else {
@@ -106,7 +106,7 @@ module.exports = function(args, program) {
 	}
 
 	if (style.exists.source) {
-		fs.unlink(style.source, function(err) {
+		fs.unlink(style.source, function (err) {
 			if (err) {
 				logger.error('remove failed style ' + style.source.cyan);
 			} else {

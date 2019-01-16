@@ -20,33 +20,33 @@ var VALID = [
 	'Alloy.Abstract.Templates',
 	'Ti.UI.iOS.PreviewContext'
 ];
-var ALL_VALID = _.union(PROXY_PROPERTIES, SEARCH_PROPERTIES, [REFRESH_PROPERTY], VALID);
+var ALL_VALID = _.union(PROXY_PROPERTIES, SEARCH_PROPERTIES, [ REFRESH_PROPERTY ], VALID);
 var ORDER = {
 	'Ti.UI.ListSection': 2,
 	'Alloy.Abstract.Templates': 1
 };
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
 function parse(node, state, args) {
-	var isDataBound = args[CONST.BIND_COLLECTION] ? true : false,
+	var isDataBound = !!args[CONST.BIND_COLLECTION],
 		code = '',
 		proxyProperties = {},
 		sectionArray, templateObject;
 
 	if (isDataBound) {
-		U.dieWithNode(node, "'dataCollection' attribute should be set on <ListSection>.");
+		U.dieWithNode(node, '\'dataCollection\' attribute should be set on <ListSection>.');
 	}
 
 	// sort the children of the ListView
-	var children = _.sortBy(U.XML.getElementsFromNodes(node.childNodes), function(n) {
+	var children = _.sortBy(U.XML.getElementsFromNodes(node.childNodes), function (n) {
 		return ORDER[CU.validateNodeName(n, ALL_VALID)] || -1;
 	});
 
 	// process each child
-	_.each(children, function(child) {
+	_.each(children, function (child) {
 		var fullname = CU.getNodeFullname(child),
 			theNode = CU.validateNodeName(child, ALL_VALID),
 			isSearchBar = false,
@@ -57,8 +57,8 @@ function parse(node, state, args) {
 			parentSymbol, controllerSymbol;
 
 		if (!theNode) {
-			U.dieWithNode(child, 'Ti.UI.ListView child elements must be one of the following: [' +
-				ALL_VALID.join(',') + ']');
+			U.dieWithNode(child, 'Ti.UI.ListView child elements must be one of the following: ['
+				+ ALL_VALID.join(',') + ']');
 		} else if (!CU.isNodeForCurrentPlatform(child)) {
 			return;
 		} else if (_.includes(CONST.CONTROLLER_NODES, fullname)) {
@@ -75,7 +75,7 @@ function parse(node, state, args) {
 		if (theNode !== 'Alloy.Abstract.Templates') {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					parentSymbol = state.parent.symbol;
 					controllerSymbol = state.controller;
 				}
@@ -87,7 +87,7 @@ function parse(node, state, args) {
 
 			// set up any proxy properties at the top-level of the controller
 			var inspect = CU.inspectRequireNode(child);
-			_.each(_.uniq(inspect.names), function(name) {
+			_.each(_.uniq(inspect.names), function (name) {
 				if (_.includes(PROXY_PROPERTIES, name)) {
 					var propertyName = U.proxyPropertyNameFromFullname(name);
 					proxyProperties[propertyName] = controllerSymbol + '.getProxyPropertyEx("' + propertyName + '", {recurse:true})';
@@ -120,7 +120,7 @@ function parse(node, state, args) {
 		// handle ItemTemplates
 		} else if (theNode === 'Alloy.Abstract.Templates') {
 			var templateNodes = U.XML.getElementsFromNodes(child.childNodes);
-			_.each(templateNodes, function(template) {
+			_.each(templateNodes, function (template) {
 				var fullname = CU.validateNodeName(template, 'Alloy.Abstract.ItemTemplate');
 				if (!fullname) {
 					U.dieWithNode(template, 'Child element must be one of the following: [Alloy.Abstract.ItemTemplate]');
@@ -142,16 +142,16 @@ function parse(node, state, args) {
 
 	// add all creation time properties to the state
 	var extras = [];
-	if (sectionArray) { extras.push(['sections', sectionArray]); }
-	if (templateObject) { extras.push(['templates', templateObject]); }
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	if (sectionArray) { extras.push([ 'sections', sectionArray ]); }
+	if (templateObject) { extras.push([ 'templates', templateObject ]); }
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 	// ALOY-1033: manually handle the case where the <SearchBar> is outside
 	// the <ListView> and linked to the list via the searchView attribute
 	if (node.hasAttribute('searchView')) {
 		var attr = node.getAttribute('searchView');
-		extras.push(['searchView', '$.__views.' + attr]);
+		extras.push([ 'searchView', '$.__views.' + attr ]);
 		node.removeAttribute('searchView');
 	}
 	if (extras.length) { state.extraStyle = styler.createVariableStyle(extras); }

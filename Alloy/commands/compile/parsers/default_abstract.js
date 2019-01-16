@@ -4,7 +4,7 @@ var CU = require('../compilerUtils'),
 	CONST = require('../../../common/constants'),
 	_ = require('lodash');
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 

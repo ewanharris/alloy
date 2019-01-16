@@ -7,7 +7,7 @@ var _ = require('lodash'),
 const MIN_VERSION_FOR_IOS = '3.1.3';
 const MIN_VERSION = '8.0.0';
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -22,7 +22,7 @@ function parse(node, state, args) {
 	}
 
 	var children = U.XML.getElementsFromNodes(node.childNodes),
-		err = ['NavigationWindow must have only one child element, which must be a Window'],
+		err = [ 'NavigationWindow must have only one child element, which must be a Window' ],
 		code = '';
 
 	// NavigationWindow must have 1 window as a child
@@ -39,7 +39,7 @@ function parse(node, state, args) {
 	if (theNode) {
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function(node, state, args) {
+			post: function (node, state, args) {
 				windowSymbol = state.parent.symbol;
 			}
 		});

@@ -16,7 +16,7 @@ function generateStyles(targets) {
 		xml2tss.updateFile(
 			current.view_path,
 			current.style_path,
-			function(err, ok) {
+			function (err, ok) {
 				if (ok) {
 					logger.info('Style generated: ' + current.style);
 				}
@@ -26,7 +26,7 @@ function generateStyles(targets) {
 	}
 }
 
-module.exports = function(name, args, program) {
+module.exports = function (name, args, program) {
 	var paths = U.getAndValidateProjectPaths(program.outputPath),
 		view_root  = path.join(paths.app, CONST.DIR.VIEW),
 		style_root = path.join(paths.app, CONST.DIR.STYLE),
@@ -37,7 +37,7 @@ module.exports = function(name, args, program) {
 			logger.info('Generated style named ' + name);
 		}
 	} else if (program.all) {
-		walkSync(view_root).forEach(function(view) {
+		walkSync(view_root).forEach(function (view) {
 			if (view.match('.xml$')) {
 				var style = view.replace(/\.xml/, '.tss'),
 					style_path = path.join(style_root, style),
@@ -49,14 +49,14 @@ module.exports = function(name, args, program) {
 					fs.mkdirpSync(fullDir);
 				}
 				targets.push({
-					style:style,
+					style: style,
 					style_path: style_path,
-					view_path:view_path
+					view_path: view_path
 				});
 			}
 		});
 		generateStyles(targets);
 	} else {
-		U.die("'alloy generate style' requires a file name, or the --all flag");
+		U.die('\'alloy generate style\' requires a file name, or the --all flag');
 	}
 };

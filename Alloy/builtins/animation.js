@@ -35,7 +35,7 @@ const create2DMatrix = Ti.version >= '8.0.0' ? Ti.UI.createMatrix2D : Ti.UI.crea
  * @param {Number} duration Fade duration in milliseconds.
  * @param {function()} [finishCallback] Callback function, invoked after the fade completes.
  */
-exports.flip = OS_IOS ? function(from, to, direction, duration, finishCallback) {
+exports.flip = OS_IOS ? function (from, to, direction, duration, finishCallback) {
 	var vertical = (direction === exports.VERTICAL);
 	var flipped_matrix = create3DMatrix().rotate(
 		-90,
@@ -48,7 +48,7 @@ exports.flip = OS_IOS ? function(from, to, direction, duration, finishCallback) 
 		duration: duration
 	});
 	to.transform = flipped_matrix;
-	from.animate(from_animation, function() {
+	from.animate(from_animation, function () {
 		var unflipped_matrix = create3DMatrix().rotate(
 			0,
 			vertical ? 1 : 0,
@@ -62,7 +62,7 @@ exports.flip = OS_IOS ? function(from, to, direction, duration, finishCallback) 
 		finishCallback ? to.animate(to_animation, finishCallback) : to.animate(to_animation);
 	});
 
-} : function() {
+} : function () {
 	Ti.API.error('The builtin flip-animation is iOS-only.');
 };
 
@@ -76,7 +76,7 @@ exports.flip = OS_IOS ? function(from, to, direction, duration, finishCallback) 
  * @param {Number} duration Fade duration in milliseconds.
  * @param {function()} [finishCallback] Callback function, invoked after the fade completes.
  */
-exports.flipHorizontal = function(from, to, duration, finishCallback) {
+exports.flipHorizontal = function (from, to, duration, finishCallback) {
 	exports.flip(from, to, exports.HORIZONTAL, duration, finishCallback);
 };
 
@@ -90,7 +90,7 @@ exports.flipHorizontal = function(from, to, duration, finishCallback) {
  * @param {Number} duration Fade duration in milliseconds.
  * @param {function()} [finishCallback] Callback function, invoked after the fade completes.
  */
-exports.flipVertical = function(from, to, duration, finishCallback) {
+exports.flipVertical = function (from, to, duration, finishCallback) {
 	exports.flip(from, to, exports.VERTICAL, duration, finishCallback);
 };
 
@@ -103,18 +103,19 @@ exports.flipVertical = function(from, to, duration, finishCallback) {
  * @param {function()} [finishCallback] Callback function, invoked after the fade completes.
  */
 exports.crossFade = function (from, to, duration, finishCallback) {
-	if (from)
+	if (from) {
 		from.animate({
 			opacity: 0,
 			duration: duration
 		});
-	if (to)
+	}
+	if (to) {
 		to.animate({
 			opacity: 1,
 			duration: duration
 		});
-	if (finishCallback)
-		setTimeout(finishCallback, duration + 300);
+	}
+	if (finishCallback) { setTimeout(finishCallback, duration + 300); }
 };
 
 /**
@@ -133,8 +134,7 @@ exports.fadeAndRemove = function (from, duration, container, finishCallback) {
 		}, function () {
 			container.remove(from);
 			container = from = duration = null;
-			if (finishCallback)
-				finishCallback();
+			if (finishCallback) { finishCallback(); }
 		});
 	}
 };
@@ -146,7 +146,7 @@ exports.fadeAndRemove = function (from, duration, container, finishCallback) {
  * @param {Number} duration Fade duration in milliseconds.
  * @param {function()} [finishCallback] Callback function, invoked after the fadeIn completes.
  */
-exports.fadeIn = function(to, duration, finishCallback) {
+exports.fadeIn = function (to, duration, finishCallback) {
 	if (finishCallback) {
 		if (to) {
 			to.animate({
@@ -154,16 +154,13 @@ exports.fadeIn = function(to, duration, finishCallback) {
 				duration: duration
 			}, finishCallback);
 		}
-	} else {
-		if (to) {
-			to.animate({
-				opacity: 1,
-				duration: duration
-			});
-		}
+	} else if (to) {
+		to.animate({
+			opacity: 1,
+			duration: duration
+		});
 	}
 };
-
 
 /**
  * @method fadeOut
@@ -180,13 +177,11 @@ exports.fadeOut = function (to, duration, finishCallback) {
 				duration: duration
 			}, finishCallback);
 		}
-	} else {
-		if (to) {
-			to.animate({
-				opacity: 0,
-				duration: duration
-			});
-		}
+	} else if (to) {
+		to.animate({
+			opacity: 0,
+			duration: duration
+		});
 	}
 };
 
@@ -305,8 +300,7 @@ exports.chainAnimate = function (view, animations, finishCallback) {
 	function step() {
 		if (animations.length === 0) {
 			view = animations = null;
-			if (finishCallback)
-				finishCallback();
+			if (finishCallback) { finishCallback(); }
 			return;
 		}
 		var animation = animations.shift();

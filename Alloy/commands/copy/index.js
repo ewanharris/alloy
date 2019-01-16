@@ -16,7 +16,7 @@ function copy(source, destination, callback) {
 	fs.writeFile(destination, code, callback);
 }
 
-module.exports = function(args, program) {
+module.exports = function (args, program) {
 	args = args || [];
 	program = program || {};
 
@@ -75,8 +75,8 @@ module.exports = function(args, program) {
 		U.die(logs.join('\n'));
 	}
 
-	if (!program.force &&
-		(controller.exists.destination || view.exists.destination || style.exists.destination)) {
+	if (!program.force
+		&& (controller.exists.destination || view.exists.destination || style.exists.destination)) {
 		logs = [
 			'destination files already exist'
 		];
@@ -87,7 +87,7 @@ module.exports = function(args, program) {
 	}
 
 	if (controller.exists.source) {
-		copy(controller.source, controller.destination, function(err) {
+		copy(controller.source, controller.destination, function (err) {
 			if (err) {
 				logger.error('copy failed view-style-controller ' + controller.source.cyan + ' -> ' + controller.destination.cyan);
 			} else {
@@ -97,7 +97,7 @@ module.exports = function(args, program) {
 	}
 
 	if (view.exists.source) {
-		copy(view.source, view.destination, function(err) {
+		copy(view.source, view.destination, function (err) {
 			if (err) {
 				logger.error('copy failed view ' + view.source.cyan + ' -> ' + view.destination.cyan);
 			} else {
@@ -107,7 +107,7 @@ module.exports = function(args, program) {
 	}
 
 	if (style.exists.source) {
-		copy(style.source, style.destination, function(err) {
+		copy(style.source, style.destination, function (err) {
 			if (err) {
 				logger.error('copy failed style ' + style.source.cyan + ' -> ' + style.destination.cyan);
 			} else {

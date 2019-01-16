@@ -21,9 +21,9 @@ var VALID = [
 	'Ti.UI.TableViewSection',
 	'Ti.UI.iOS.PreviewContext'
 ];
-var ALL_VALID = _.union(PROXY_PROPERTIES, SEARCH_PROPERTIES, [REFRESH_PROPERTY], VALID);
+var ALL_VALID = _.union(PROXY_PROPERTIES, SEARCH_PROPERTIES, [ REFRESH_PROPERTY ], VALID);
 
-exports.parse = function(node, state) {
+exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
@@ -31,7 +31,7 @@ function parse(node, state, args) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		code = '',
 		itemCode = '',
-		isDataBound = args[CONST.BIND_COLLECTION] ? true : false,
+		isDataBound = !!args[CONST.BIND_COLLECTION],
 		extras = [],
 		proxyProperties = {},
 		localModel, arrayName, controllerSymbol;
@@ -43,7 +43,7 @@ function parse(node, state, args) {
 	}
 
 	// iterate through all children of the TableView
-	_.each(children, function(child) {
+	_.each(children, function (child) {
 		var config = CU.getCompilerConfig(),
 			platform = config && config.alloyConfig ? config.alloyConfig.platform : undefined;
 		if (child.nodeName === 'SearchView' && platform !== 'android') {
@@ -87,11 +87,11 @@ function parse(node, state, args) {
 
 			// set up any proxy properties at the top-level of the controller
 			var inspect = CU.inspectRequireNode(child);
-			_.each(_.uniq(inspect.names), function(name) {
+			_.each(_.uniq(inspect.names), function (name) {
 				if (_.includes(PROXY_PROPERTIES, name)) {
 					var propertyName = U.proxyPropertyNameFromFullname(name);
-					proxyProperties[propertyName] = '<%= controllerSymbol %>.getProxyPropertyEx("' +
-						propertyName + '", {recurse:true})';
+					proxyProperties[propertyName] = '<%= controllerSymbol %>.getProxyPropertyEx("'
+						+ propertyName + '", {recurse:true})';
 				} else {
 					hasUiNodes = true;
 				}
@@ -102,7 +102,7 @@ function parse(node, state, args) {
 		if (isProxyProperty) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, _state, _args) {
+				post: function (node, _state, _args) {
 					if (_args.formFactor) {
 						state.styles.push({
 							isId: true,
@@ -120,7 +120,7 @@ function parse(node, state, args) {
 		} else if (isSearchBar) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxyProperties.search = state.parent.symbol;
 				}
 			});
@@ -129,7 +129,7 @@ function parse(node, state, args) {
 		} else if (isRefreshControl) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					proxyProperties.refreshControl = state.parent.symbol;
 				}
 			});
@@ -144,7 +144,7 @@ function parse(node, state, args) {
 					parent: {},
 					local: true,
 					model: localModel,
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						controllerSymbol = state.controller;
 						return 'rows.push(' + state.parent.symbol + ');\n';
 					}
@@ -158,7 +158,7 @@ function parse(node, state, args) {
 				}
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function(node, state, args) {
+					post: function (node, state, args) {
 						controllerSymbol = state.controller;
 						return arrayName + '.push(' + state.parent.symbol + ');';
 					}
@@ -169,7 +169,7 @@ function parse(node, state, args) {
 		} else if (!hasUiNodes && isControllerNode) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function(node, state, args) {
+				post: function (node, state, args) {
 					controllerSymbol = state.controller;
 				}
 			});
@@ -177,7 +177,7 @@ function parse(node, state, args) {
 
 		// fill in proxy property templates, if present
 		if (isControllerNode) {
-			_.each(proxyProperties, function(v, k) {
+			_.each(proxyProperties, function (v, k) {
 				proxyProperties[k] = _.template(v)({
 					controllerSymbol: controllerSymbol
 				});
@@ -187,11 +187,11 @@ function parse(node, state, args) {
 	});
 
 	// add data at creation time
-	if (arrayName) { extras.push(['data', arrayName]); }
+	if (arrayName) { extras.push([ 'data', arrayName ]); }
 
 	// add all proxy properties at creation time
-	_.each(proxyProperties, function(v, k) {
-		extras.push([k, v]);
+	_.each(proxyProperties, function (v, k) {
+		extras.push([ k, v ]);
 	});
 
 	// if we got any extras, add them to the state
@@ -199,7 +199,7 @@ function parse(node, state, args) {
 
 	// generate the code for the table itself
 	if (isDataBound) {
-		_.each(CONST.BIND_PROPERTIES, function(p) {
+		_.each(CONST.BIND_PROPERTIES, function (p) {
 			node.removeAttribute(p);
 		});
 	}
