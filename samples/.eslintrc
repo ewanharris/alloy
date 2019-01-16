@@ -1,0 +1,12 @@
+{
+	"extends": [ "axway/env-alloy" ],
+	"env": { 
+		"jasmine": true
+	},
+	"rules": {
+		"import/no-absolute-path": "off",
+		"alloy/no-unused-vars": "off",
+		"security/detect-non-literal-require": "off",
+		"no-loop-func": "off"
+	}
+}

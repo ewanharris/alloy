@@ -58,7 +58,7 @@
     "alloy": "./bin/alloy"
   },
   "scripts": {
-    "pretest": "eslint .",
+    "lint": "eslint .",
     "test": "jake test:all"
   },
   "main": "./Alloy/alloy",
@@ -67,7 +67,9 @@
   },
   "devDependencies": {
     "diff": "^3.4.0",
-    "eslint": "^4.14.0",
+    "eslint": "^5.12.0",
+    "eslint-config-axway": "^4.2.1",
+    "eslint-plugin-alloy": "^1.1.1",
     "jake": "^8.0.12",
     "mkdirp": "^0.5.1"
   }

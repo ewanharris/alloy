@@ -1,0 +1,9 @@
+{
+	"extends": "axway/env-alloy",
+	"rules": {
+		"import/no-absolute-path": "off",
+		"no-throw-literal": "off",
+		"security/detect-non-literal-require": "off",
+		"valid-jsdoc": "off"
+	}
+}
