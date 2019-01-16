@@ -18,13 +18,13 @@ for (var i = 0; i < 500; i++) {
 	}
 }
 
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	for (var i = 0; i < info.length; i++) {
 		migrator.insertRow(info[i]);
 	}
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	for (var i = 0; i < info.length; i++) {
 		migrator.deleteRow(info[i]);
 	}

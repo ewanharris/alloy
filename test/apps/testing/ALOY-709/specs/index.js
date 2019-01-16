@@ -4,10 +4,10 @@ var CFG = require('alloy/CFG');
 var CONST = require('alloy/constants');
 var autoStyle = CFG[CONST.AUTOSTYLE_PROPERTY];
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -40,33 +40,33 @@ module.exports = function($) {
 		});
 
 		if (autoStyle) {
-			it('has #index, which has "classes" property', function() {
+			it('has #index, which has "classes" property', function () {
 				expect($.index.classes).toContainSameAs([]);
 			});
 		} else {
-			it('has #index, which has undefined "classes" property', function() {
+			it('has #index, which has undefined "classes" property', function () {
 				expect($.index.classes).toBeUndefined();
 			});
 		}
 
 		if (autoStyle) {
-			it('has #index, which has "apiName" property', function() {
+			it('has #index, which has "apiName" property', function () {
 				expect($.index.apiName).toEqual('Ti.UI.Window');
 			});
 		}
 
 		if (autoStyle) {
-			it('has #label, which has "classes" property', function() {
-				expect($.label.classes).toContainSameAs(['main', 'shadow']);
+			it('has #label, which has "classes" property', function () {
+				expect($.label.classes).toContainSameAs([ 'main', 'shadow' ]);
 			});
 		} else {
-			it('has #label, which has undefined "classes" property', function() {
+			it('has #label, which has undefined "classes" property', function () {
 				expect($.label.classes).toBeUndefined();
 			});
 		}
 
 		if (autoStyle) {
-			it('has #label, which has "apiName" property', function() {
+			it('has #label, which has "apiName" property', function () {
 				expect($.label.apiName).toEqual('Ti.UI.Label');
 			});
 		}

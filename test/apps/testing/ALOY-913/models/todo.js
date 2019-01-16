@@ -1,16 +1,16 @@
 exports.definition = {
 	config: {
-		'columns': {
-			'item': 'text',
-			'done': 'integer',
-			'date_completed': 'text'
+		columns: {
+			item: 'text',
+			done: 'integer',
+			date_completed: 'text'
 		},
-		'adapter': {
-			'type': 'sql',
-			'collection_name': 'todo'
+		adapter: {
+			type: 'sql',
+			collection_name: 'todo'
 		}
 	},
-	extendCollection : function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

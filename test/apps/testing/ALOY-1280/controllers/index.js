@@ -6,5 +6,4 @@ function onToggleButtonClick(e) {
 	alert('onToggleButtonClick');
 }
 
-
 $.index.open();

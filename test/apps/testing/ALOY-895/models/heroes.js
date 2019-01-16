@@ -1,21 +1,21 @@
 exports.definition = {
 
 	config: {
-		'columns': {
-			'name': 'text',
-			'status': 'integer'
+		columns: {
+			name: 'text',
+			status: 'integer'
 		},
-		'defaults': {
-			'name': '',
-			'captured': 0
+		defaults: {
+			name: '',
+			captured: 0
 		},
-		'adapter': {
-			'type': 'sql',
-			'collection_name': 'heroes'
+		adapter: {
+			type: 'sql',
+			collection_name: 'heroes'
 		}
 	},
 
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
 
 		});
@@ -24,7 +24,7 @@ exports.definition = {
 		return Model;
 	},
 
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

@@ -1,5 +1,5 @@
 function toggleState() {
-	_.each(Alloy.Collections.heroes.models, function(model) {
+	_.each(Alloy.Collections.heroes.models, function (model) {
 		model.set('status', Math.random() > 0.5);
 	});
 }
@@ -7,25 +7,25 @@ function toggleState() {
 if (!Ti.App.Properties.hasProperty('seeded')) {
 
 	// add all items to collection
-	Alloy.Collections.heroes.reset([{
-		'name' : 'Superman',
-		'status': false
+	Alloy.Collections.heroes.reset([ {
+		name: 'Superman',
+		status: false
 	}, {
-		'name' : 'Batman',
-		'status': true
+		name: 'Batman',
+		status: true
 	}, {
-		'name' : 'Spiderman',
-		'status': false
+		name: 'Spiderman',
+		status: false
 	}, {
-		'name' : 'Wonder Woman',
-		'status': true
+		name: 'Wonder Woman',
+		status: true
 	}, {
-		'name' : 'Tony Lukasavage',
-		'status': false
-	}]);
+		name: 'Tony Lukasavage',
+		status: false
+	} ]);
 
 	// save all of the elements
-	Alloy.Collections.heroes.each(function(_m) {
+	Alloy.Collections.heroes.each(function (_m) {
 		_m.save();
 	});
 

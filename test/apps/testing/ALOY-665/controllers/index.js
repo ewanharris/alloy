@@ -1,9 +1,9 @@
 var touch = {
-	start: function(e) {
+	start: function (e) {
 		Ti.API.info('touchstart');
 	},
 	end: {
-		func: function(e) {
+		func: function (e) {
 			Ti.API.info('touchend');
 		}
 	}

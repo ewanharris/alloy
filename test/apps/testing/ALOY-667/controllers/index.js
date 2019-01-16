@@ -1,4 +1,4 @@
-exports.showContacts = function(e) {
+exports.showContacts = function (e) {
 	Ti.API.info('showContacts: ' + e.source.title);
 };
 

@@ -15,18 +15,18 @@ var labelStyle = {
 
 // TODO: Mobileweb represents null values differently. Remove mobileweb-specific
 // code when this is resolved: https://jira.appcelerator.org/browse/TIMOB-14295
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'tester', {
 			api: 'Ti.UI.Label',
 			style: labelStyle
 		});
 
-		it('adds classes ["tiny","right"] to $.tester', function() {
-			var t = function() {
-				$.addClass($.tester, ['tiny', 'right']);
+		it('adds classes ["tiny","right"] to $.tester', function () {
+			var t = function () {
+				$.addClass($.tester, [ 'tiny', 'right' ]);
 			};
 			expect(t).not.toThrow();
 		});
@@ -41,13 +41,13 @@ module.exports = function($) {
 				},
 				right: 0,
 				apiName: 'Ti.UI.Label',
-				classes: ['tiny', 'right']
+				classes: [ 'tiny', 'right' ]
 			})
 		});
 
-		it('removes class "right" from $.tester', function() {
-			var t = function() {
-				$.removeClass($.tester, ['right']);
+		it('removes class "right" from $.tester', function () {
+			var t = function () {
+				$.removeClass($.tester, [ 'right' ]);
 			};
 			expect(t).not.toThrow();
 		});
@@ -61,13 +61,13 @@ module.exports = function($) {
 					fontWeight: 'normal'
 				},
 				apiName: 'Ti.UI.Label',
-				classes: ['tiny']
+				classes: [ 'tiny' ]
 			})
 		});
 
-		it('removes class "tiny" from $.tester', function() {
-			var t = function() {
-				$.removeClass($.tester, ['tiny']);
+		it('removes class "tiny" from $.tester', function () {
+			var t = function () {
+				$.removeClass($.tester, [ 'tiny' ]);
 			};
 			expect(t).not.toThrow();
 		});
@@ -80,8 +80,8 @@ module.exports = function($) {
 			})
 		});
 
-		it('adds classes "tiny right" via string to $.tester', function() {
-			var t = function() {
+		it('adds classes "tiny right" via string to $.tester', function () {
+			var t = function () {
 				$.addClass($.tester, 'tiny right');
 			};
 			expect(t).not.toThrow();
@@ -97,12 +97,12 @@ module.exports = function($) {
 				},
 				right: 0,
 				apiName: 'Ti.UI.Label',
-				classes: ['tiny', 'right']
+				classes: [ 'tiny', 'right' ]
 			})
 		});
 
-		it('removes classes "tiny right" via string to $.tester', function() {
-			var t = function() {
+		it('removes classes "tiny right" via string to $.tester', function () {
+			var t = function () {
 				$.removeClass($.tester, 'tiny right');
 			};
 			expect(t).not.toThrow();

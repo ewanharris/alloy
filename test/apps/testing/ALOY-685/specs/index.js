@@ -1,12 +1,12 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($, opts) {
+module.exports = function ($, opts) {
 	opts || (opts = {});
 	var color = OS_IOS && Alloy.isHandheld ? '#a00' : '#222';
 
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 		validateUiComponent($, 'index', {
 			api: 'Ti.UI.Window',
 			style: {
@@ -35,11 +35,11 @@ module.exports = function($, opts) {
 			}
 		});
 
-		_.each(opts.labels, function(label, i) {
+		_.each(opts.labels, function (label, i) {
 			var id = 'label' + (i + 1);
 			var newColor = i === 1 ? '#fff' : '#222';
 			var backgroundColor = i == 2 ? '#000' : '#00f';
-			var font = (function() {
+			var font = (function () {
 				if (i === 0) {
 					return {
 						fontSize: OS_MOBILEWEB ? '14px' : 14,
@@ -56,9 +56,9 @@ module.exports = function($, opts) {
 						fontWeight: 'bold'
 					};
 				}
-			})();
+			}());
 
-			it('generates style for #' + id + ' as expected', function() {
+			it('generates style for #' + id + ' as expected', function () {
 				expect(label).toHaveStyle({
 					color: newColor,
 					font: font,
@@ -73,7 +73,7 @@ module.exports = function($, opts) {
 					},
 					shadowColor: '#0f0',
 					id: id,
-					text: "I'm ugly, but styled dynamically!"
+					text: 'I\'m ugly, but styled dynamically!'
 				});
 			});
 		});

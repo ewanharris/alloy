@@ -1,13 +1,13 @@
 var ctr = 0;
 var classes = [
 	[],
-	['big'],
-	['blue'],
+	[ 'big' ],
+	[ 'blue' ],
 	'shadow',
-	['shadow'],
-	['shadow', 'big'],
-	['big', 'shadow'],
-	['big', 'blue', 'shadow'],
+	[ 'shadow' ],
+	[ 'shadow', 'big' ],
+	[ 'big', 'shadow' ],
+	[ 'big', 'blue', 'shadow' ],
 	'big blue shadow'
 ];
 

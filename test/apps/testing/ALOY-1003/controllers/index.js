@@ -2,7 +2,7 @@ var moreItems = [];
 for (var i = 0; i < 5; i++) {
 	moreItems.push({
 		template: 'template',
-		type:{
+		type: {
 			text: 'row ' + i
 		}
 	});

@@ -5,6 +5,6 @@ function buttonClick(e) {
 
 $.empty.fireEvent('click');
 
-setTimeout(function() {
+setTimeout(function () {
 	$.trigger('init');
 }, 2000);

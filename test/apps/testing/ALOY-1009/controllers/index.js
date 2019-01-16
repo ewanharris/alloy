@@ -1,4 +1,4 @@
-$.index.addEventListener('click', function() {
+$.index.addEventListener('click', function () {
 	$.options.show();
 });
 $.index.open();

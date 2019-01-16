@@ -1,4 +1,4 @@
-migration.up = function(migrator) {
+migration.up = function (migrator) {
 	migrator.createTable({
 		columns: {
 			id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
@@ -9,6 +9,6 @@ migration.up = function(migrator) {
 	});
 };
 
-migration.down = function(migrator) {
+migration.down = function (migrator) {
 	migrator.dropTable('info');
 };

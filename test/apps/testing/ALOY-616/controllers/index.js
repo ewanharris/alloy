@@ -10,5 +10,4 @@ function doFoo(num) {
 }
 $.starwidget.init(doFoo);
 
-
 $.index.open();

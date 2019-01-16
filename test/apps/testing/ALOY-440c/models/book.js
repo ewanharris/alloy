@@ -6,14 +6,14 @@ exports.definition = {
 			collection_name: 'book'
 		}
 	},
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
 			// extended functions and properties go here
 		});
 
 		return Model;
 	},
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

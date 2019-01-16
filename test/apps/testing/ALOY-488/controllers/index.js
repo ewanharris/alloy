@@ -7,5 +7,4 @@ function doAlert(num) {
 }
 $.starwidget.init(doAlert);
 
-
 $.index.open();

@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('buttons controller', function() {
+	describe('buttons controller', function () {
 		for (var i = 0; i < 3; i++) {
 			var id = 'button' + (i + 1);
 			validateUiComponent($, id, {
@@ -18,7 +18,7 @@ module.exports = function($) {
 			});
 		}
 
-		it('has #button3, which has no apiName or classes', function() {
+		it('has #button3, which has no apiName or classes', function () {
 			expect($.button3.classes).toBeUndefined();
 		});
 	});

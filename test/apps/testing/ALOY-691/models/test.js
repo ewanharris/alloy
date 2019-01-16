@@ -1,23 +1,23 @@
 exports.definition = {
-	configuration : {
-		'columns': {
-			'username':'string'
+	configuration: {
+		columns: {
+			username: 'string'
 		},
-		'adapter': {
-			'type': 'sql',
-			'collection_name': 'test'
+		adapter: {
+			type: 'sql',
+			collection_name: 'test'
 		},
 	},
 
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {});
 		return Model;
 	},
 
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
-		// For Backbone v1.1.2, uncomment this to override the fetch method
+			// For Backbone v1.1.2, uncomment this to override the fetch method
 		/*
 		fetch: function(options) {
 			options = options ? _.clone(options) : {};

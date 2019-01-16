@@ -11,6 +11,6 @@ Alloy.Models.modelb.set({
 });
 
 Alloy.Models['model-a'].set(attributes);
-Alloy.Collections['model-a'].reset([attributes]);
+Alloy.Collections['model-a'].reset([ attributes ]);
 
 $.index.open();

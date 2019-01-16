@@ -1,8 +1,8 @@
 var todos = Alloy.Collections.todo;
 var INDEXES = {
-	'All' : 0,
-	'Active' : 1,
-	'Done' : 2
+	All: 0,
+	Active: 1,
+	Done: 2
 };
 var whereIndex = INDEXES['All'];
 
@@ -17,7 +17,7 @@ todos && todos.fetch();
 // that you would like to render.
 function whereFunction(collection) {
 	return !whereIndex ? collection.models : collection.where({
-		done : whereIndex === 1 ? 0 : 1
+		done: whereIndex === 1 ? 0 : 1
 	});
 }
 

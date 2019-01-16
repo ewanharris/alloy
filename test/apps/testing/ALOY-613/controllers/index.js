@@ -1,54 +1,54 @@
 // Need to set initial apiName and classes manually on $.labelNoAutoStyle
 // because, by default, autoStyle is not enabled
 $.labelNoAutoStyle.apiName = 'Label';
-$.labelNoAutoStyle.classes = ['blueshadow'];
+$.labelNoAutoStyle.classes = [ 'blueshadow' ];
 
 var labels = [
 	{
 		label: $.labelNoAutoStyle,
-		classes: ['huge']
+		classes: [ 'huge' ]
 	},
 	{
 		label: $.labelAutoStyle,
-		classes: ['huge']
+		classes: [ 'huge' ]
 	},
 	{
 		label: $.UI.create('Label', {
-			classes: ['tiny'],
+			classes: [ 'tiny' ],
 			text: '["tiny"]'
 		}),
-		classes: ['right', 'greyBg']
+		classes: [ 'right', 'greyBg' ]
 	},
 	{
 		label: $.UI.create('Label', {
-			classes: ['red'],
+			classes: [ 'red' ],
 			text: '["red"]'
 		}),
-		classes: ['left', 'blueshadow']
+		classes: [ 'left', 'blueshadow' ]
 	},
 	{
 		label: Ti.UI.createLabel({
 			text: '[]',
 			apiName: 'Label'
 		}),
-		classes: ['bigspace', 'red', 'huge']
+		classes: [ 'bigspace', 'red', 'huge' ]
 	}
 ];
 
-_.each(labels, function(o, index) {
+_.each(labels, function (o, index) {
 	var label = o.label,
 		classes = o.classes;
 
-	label.addEventListener('click', function(e) {
-		label._wasClicked = typeof label._wasClicked === 'undefined' ?
-			false : !label._wasClicked;
+	label.addEventListener('click', function (e) {
+		label._wasClicked = typeof label._wasClicked === 'undefined'
+			? false : !label._wasClicked;
 		if (label._wasClicked) {
-			Ti.API.info('remove: ' + JSON.stringify(classes) + ' from ' +
-				JSON.stringify(label.classes));
+			Ti.API.info('remove: ' + JSON.stringify(classes) + ' from '
+				+ JSON.stringify(label.classes));
 			$.removeClass(label, classes);
 		} else {
-			Ti.API.info('add: ' + JSON.stringify(classes) + ' to ' +
-				JSON.stringify(label.classes));
+			Ti.API.info('add: ' + JSON.stringify(classes) + ' to '
+				+ JSON.stringify(label.classes));
 			$.addClass(label, classes);
 		}
 		label.text = JSON.stringify(label.classes);

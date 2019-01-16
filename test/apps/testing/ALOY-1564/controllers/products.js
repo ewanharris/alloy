@@ -1,3 +1,3 @@
-$.lbl.addEventListener('click', function(e) {
+$.lbl.addEventListener('click', function (e) {
 	$.trigger('click', e);
 });

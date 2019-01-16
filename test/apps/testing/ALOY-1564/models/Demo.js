@@ -8,14 +8,14 @@ exports.definition = {
 			collection_name: 'Demo'
 		}
 	},
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
 			// extended functions and properties go here
 		});
 
 		return Model;
 	},
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
 

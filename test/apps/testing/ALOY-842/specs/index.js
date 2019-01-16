@@ -8,12 +8,12 @@ var BASE_MEASURE = 100,
 	RETINA_HALF_MEASURE = BASE_MEASURE / MULT,
 	dpi = Ti.Platform.displayCaps.dpi;
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('index controller', function() {
+	describe('index controller', function () {
 
-		it('should convert units with dpToPX()', function() {
+		it('should convert units with dpToPX()', function () {
 
 			var val = measure.dpToPX(BASE_MEASURE);
 
@@ -27,7 +27,7 @@ module.exports = function($) {
 
 		});
 
-		it('should convert units with pxToDP()', function() {
+		it('should convert units with pxToDP()', function () {
 
 			var val = measure.pxToDP(BASE_MEASURE);
 
@@ -41,16 +41,16 @@ module.exports = function($) {
 
 		});
 
-		it('should convert units with pointPXToDP()', function() {
+		it('should convert units with pointPXToDP()', function () {
 
-			var val = measure.pointPXToDP({ x:BASE_MEASURE, y:BASE_MEASURE });
+			var val = measure.pointPXToDP({ x: BASE_MEASURE, y: BASE_MEASURE });
 
 			if (OS_ANDROID) {
-				expect(val).toEqual({ x:BASE_MEASURE / dpi * 160, y:BASE_MEASURE / dpi * 160 });
+				expect(val).toEqual({ x: BASE_MEASURE / dpi * 160, y: BASE_MEASURE / dpi * 160 });
 			} else if (OS_IOS) {
-				expect(val).toEqual({ x:RETINA_HALF_MEASURE, y:RETINA_HALF_MEASURE });
+				expect(val).toEqual({ x: RETINA_HALF_MEASURE, y: RETINA_HALF_MEASURE });
 			} else {
-				expect(val).toEqual({ x:BASE_MEASURE, y:BASE_MEASURE });
+				expect(val).toEqual({ x: BASE_MEASURE, y: BASE_MEASURE });
 			}
 
 		});

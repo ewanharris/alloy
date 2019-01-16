@@ -1,7 +1,7 @@
 exports.definition = {
-	extendModel: function(Model) {
+	extendModel: function (Model) {
 		_.extend(Model.prototype, {
-			transform: function() {
+			transform: function () {
 				var transformed = this.toJSON();
 
 				transformed.subject && (transformed.subject = transformed.subject.toUpperCase());

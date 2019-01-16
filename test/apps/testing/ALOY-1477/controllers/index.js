@@ -3,10 +3,10 @@ Alloy.Models.mymodel.set({
 	title: 'mod TITLE'
 });
 
-Alloy.Collections.mymodel.reset([{
+Alloy.Collections.mymodel.reset([ {
 	id: 0,
 	title: 'col TITLE'
-}]);
+} ]);
 
 $.index.open();
 

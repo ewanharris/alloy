@@ -2,7 +2,7 @@
  * Returns a random number with the number of digits specified
  * @param {Number} _number The number of digits
  */
-exports.getRandomNumber = function(numDigits) {
+exports.getRandomNumber = function (numDigits) {
 	var num = numDigits || 10,
 		mult = Math.pow(10, num - 1);
 	if (num !== 1) {

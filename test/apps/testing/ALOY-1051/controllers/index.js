@@ -1,6 +1,6 @@
 function doClick(e) {
 	alert(JSON.stringify($.createStyle({
-		classes: ['family', 'size']
+		classes: [ 'family', 'size' ]
 	})));
 }
 $.index.open();

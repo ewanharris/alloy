@@ -11,14 +11,14 @@ function doClick(e) {
 	}
 }
 
-// Create a basic section 
-$.section.items = [{ properties: { title: TEXT } }];
+// Create a basic section
+$.section.items = [ { properties: { title: TEXT } } ];
 
 // Animation options for ListView are only supported on iOS...
 if (OS_IOS) {
 	// Add "opts" to the "dataFunction" function object. In this case, we'll be
 	// adding "animation" options that will be used by the ListView's generated
-	// data binding code to make sure our ListItems don't animate when 
+	// data binding code to make sure our ListItems don't animate when
 	// updated.
 	// TODO: There's a Titanium bug where ListItems still animate when using
 	//       the ListSection.setItems() function. When TIMOB-13737 is resolved,
@@ -33,6 +33,4 @@ if (OS_IOS) {
 
 // Open the window
 $.index.open();
-
-
 

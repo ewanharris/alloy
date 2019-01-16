@@ -3,13 +3,13 @@ var anim = require('alloy/animation');
 var DURATION = 1000;
 
 function fadeIn(view, duration) {
-	anim.fadeIn(view, duration, function() {
+	anim.fadeIn(view, duration, function () {
 		fadeOut(view, duration);
 	});
 }
 
 function fadeOut(view, duration) {
-	anim.fadeOut(view, duration, function() {
+	anim.fadeOut(view, duration, function () {
 		fadeIn(view, duration);
 	});
 }

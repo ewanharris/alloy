@@ -8,9 +8,9 @@ function init() {
 
 	Alloy.Models.mymodel.set(attributes);
 
-	Alloy.Collections.mymodel.reset([attributes]);
+	Alloy.Collections.mymodel.reset([ attributes ]);
 
-	$.colinstance.reset([attributes]);
+	$.colinstance.reset([ attributes ]);
 }
 
 $.index.open();

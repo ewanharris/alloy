@@ -4,10 +4,10 @@ var CFG = require('alloy/CFG');
 var CONST = require('alloy/constants');
 var autoStyle = CFG[CONST.AUTOSTYLE_PROPERTY];
 
-module.exports = function($) {
+module.exports = function ($) {
 	addMatchers();
 
-	describe('labels controller', function() {
+	describe('labels controller', function () {
 		validateUiComponent($, 'labels', {
 			api: 'Ti.UI.View',
 			style: _.extend({
@@ -15,7 +15,7 @@ module.exports = function($) {
 				height: Ti.UI.SIZE,
 				layout: 'vertical',
 				id: 'labels'
-			}, autoStyle ? {apiName:'Ti.UI.View'} : {})
+			}, autoStyle ? { apiName: 'Ti.UI.View' } : {})
 		});
 
 		for (var i = 0; i < 3; i++) {

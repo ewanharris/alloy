@@ -1,11 +1,11 @@
 exports.definition = {
 	config: {
-		'defaults': {
+		defaults: {
 			counter: 1,
 			color: '#00f'
 		}
 	},
-	extendCollection: function(Collection) {
+	extendCollection: function (Collection) {
 		_.extend(Collection.prototype, {
 
 			// For Backbone v1.1.2, uncomment this to override the fetch method

@@ -1,9 +1,9 @@
 Ti.include('/runtimeTester.js');
 var Validator = require('validator.js/dist/validator');
 
-module.exports = function($) {
-	describe('index controller', function() {
-		it('#label can use a module required from a directory ending with .js', function() {
+module.exports = function ($) {
+	describe('index controller', function () {
+		it('#label can use a module required from a directory ending with .js', function () {
 			var values = {
 				a: 12,
 				b: 'Some string',

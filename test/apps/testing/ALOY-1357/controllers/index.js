@@ -1,5 +1,5 @@
-$.index.addEventListener('click', function() {
-	$.popup.show({view: $.lbl});
+$.index.addEventListener('click', function () {
+	$.popup.show({ view: $.lbl });
 });
 
 function popupClick(e) {
