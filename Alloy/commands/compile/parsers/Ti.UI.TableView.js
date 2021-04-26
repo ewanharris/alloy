@@ -213,7 +213,7 @@ function parse(node, state, args) {
 			localModel: localModel,
 			pre: 'var rows=[];',
 			items: itemCode,
-			post: tableState.parent.symbol + '.setData(rows);'
+			post: tableState.parent.symbol + '.data = rows;'
 		});
 	}
 
