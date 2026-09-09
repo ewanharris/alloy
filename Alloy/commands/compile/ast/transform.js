@@ -2,11 +2,22 @@
 	The AST pipeline Alloy runs over generated JS: parse, apply the builtins and
 	optimizer visitors, print.
 
-	This used to go through @babel/core, which was only ever acting as a plugin
-	runner -- it re-parsed code sourceMapper.js had already parsed, deep-cloned
-	the AST defensively, and resolved a babel config that never exists in a
-	Titanium project. Driving @babel/traverse and @babel/generator directly does
-	the same work without any of that.
+	This used to go through @babel/core, which was mostly acting as a plugin
+	runner -- it re-parsed code sourceMapper.js had already parsed and deep-cloned
+	the AST defensively. Driving @babel/traverse and @babel/generator directly
+	does the same work without either.
+
+	BEHAVIOUR CHANGE: core also resolved a babel config per file. OPTIONS_OUTPUT
+	set babelrc:false, so a project's .babelrc was never read -- but it never set
+	configFile:false, so a babel.config.js DID apply to generated output. Babel's
+	root defaults to process.cwd(), which made this depend on where the build was
+	launched from: the same project picks the config up when compiled from its own
+	directory and ignores it when compiled from anywhere else.
+
+	Nothing here reads a babel config any more. That is undocumented behaviour and
+	looks unintended given babelrc:false, but projects relying on it will see
+	different output. Honouring it deterministically would mean looking for a
+	config at the project root and lazily loading @babel/core when one is found.
 */
 var parser = require('@babel/parser'),
 	traverseModule = require('@babel/traverse'),
