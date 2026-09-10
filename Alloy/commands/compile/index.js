@@ -1021,7 +1021,7 @@ function parseAlloyComponent(view, dir, manifest, noView, fileRestriction) {
 		styleCode += getCompiledTemplate('wpath.js')({ WIDGETID: manifest.id });
 	}
 	fs.mkdirpSync(path.dirname(runtimeStylePath));
-	fs.writeFileSync(runtimeStylePath, styleCode);
+	U.writeIfChanged(runtimeStylePath, styleCode);
 }
 
 function findModelMigrations(name, inDir) {
@@ -1194,12 +1194,7 @@ function optimizeCompiledCode(alloyConfig, paths) {
 					return;
 				}
 
-				var result = transform.run(ast, code, visitor, options);
-				// not rewriting an unchanged file keeps its mtime stable, which
-				// matters for Titanium's incremental builds
-				if (result !== original) {
-					fs.writeFileSync(fullpath, result);
-				}
+				U.writeIfChanged(fullpath, transform.run(ast, code, visitor, options));
 			} catch (e) {
 				U.die('Error transforming JS file', e);
 			}

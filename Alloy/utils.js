@@ -621,6 +621,38 @@ exports.createHash = function(files) {
 	return crypto.createHash('md5').update(source).digest('hex');
 };
 
+/*
+ * @method writeIfChanged
+ * Writes a file only when its contents would actually change.
+ *
+ * Alloy regenerates its output from scratch on every build, so a rebuild with
+ * no source changes rewrites almost every generated file with the bytes that
+ * are already there. The write itself is cheap; touching the mtime is not,
+ * because everything downstream that decides what to rebuild from modification
+ * times -- the Titanium build, file watchers, LiveView -- then treats those
+ * files as changed.
+ *
+ * @param {String} file Path to write
+ * @param {String|Buffer} data Contents to write
+ * @return {Boolean} true if the file was written, false if it already matched
+ */
+exports.writeIfChanged = function(file, data) {
+	var buffer = Buffer.isBuffer(data) ? data : Buffer.from(data);
+
+	if (fs.existsSync(file)) {
+		try {
+			if (fs.readFileSync(file).equals(buffer)) {
+				return false;
+			}
+		} catch (e) {
+			// unreadable for any reason -- fall through and write it
+		}
+	}
+
+	fs.writeFileSync(file, buffer);
+	return true;
+};
+
 exports.createHashFromString = function(string) {
 	if (!_.isString(string)) {
 		throw new TypeError('bad argument');

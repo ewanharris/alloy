@@ -142,7 +142,7 @@ exports.generateCodeAndSourceMap = function(generator, compileConfig) {
 
 	// write the generated controller code
 	fs.mkdirpSync(path.dirname(outfile));
-	fs.writeFileSync(outfile, outputCode);
+	U.writeIfChanged(outfile, outputCode);
 	logger.info('  created:    "' + relativeOutfile + '"');
 
 	// write source map for the generated file
@@ -151,7 +151,7 @@ exports.generateCodeAndSourceMap = function(generator, compileConfig) {
 		outfile = path.join(mapDir, relativeOutfile) + '.' + CONST.FILE_EXT.MAP;
 		relativeOutfile = path.relative(compileConfig.dir.project, outfile);
 		fs.mkdirpSync(path.dirname(outfile));
-		fs.writeFileSync(outfile, JSON.stringify(sourceMap));
+		U.writeIfChanged(outfile, JSON.stringify(sourceMap));
 	}
 };
 
